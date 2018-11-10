@@ -1,0 +1,6 @@
+.debhelper/
+debhelper-*
+dtee
+files
+*.substvars
+*.log

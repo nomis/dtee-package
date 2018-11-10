@@ -1,0 +1,21 @@
+Source: dtee
+Section: utils
+Priority: optional
+Maintainer: Simon Arlott <debian@sa.me.uk>
+Build-Depends: debhelper (>=9), dh-virtualenv (>=1.0), python3 (>=3.5),
+ libboost-dev (>=1.62), libboost-filesystem-dev (>=1.62),
+ libboost-program-options-dev (>=1.62), python3-sphinx (>=1.4.9)
+Standards-Version: 3.9.8
+Homepage: https://dtee.readthedocs.io/
+
+Package: dtee
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Run a program with standard output and standard error copied to files
+ Run a program with standard output and standard error copied to files while
+ maintaining the original standard output and standard error as normal.
+ .
+ Run a program from cron, suppressing all output unless the process outputs an
+ error message or has a non-zero exit status whereupon the original output will
+ be written as normal and the exit code will be appended to standard error.

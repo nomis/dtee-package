@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+
+export DH_VIRTUALENV_INSTALL_ROOT=/virtualenv
+export DH_VIRTUALENV_INSTALL_SUFFIX=dtee
+export DH_VIRTUALENV_ARGUMENTS=--python /usr/bin/python3
+export DH_PIP_EXTRA_ARGS=--no-deps --no-cache-dir --ignore-installed
+export DH_REQUIREMENTS_FILE=debian/requirements.txt
+DH_DTEE_BIN=build$(DH_VIRTUALENV_INSTALL_ROOT)/$(DH_VIRTUALENV_INSTALL_SUFFIX)/bin
+
+%:
+	dh $@ --buildsystem=dh_virtualenv
+
+override_dh_auto_build:
+	dh_auto_build
+	PATH="$(DH_DTEE_BIN):$(PATH)" meson --prefix /usr --buildtype=plain build/debian
+	PATH="$(DH_DTEE_BIN):$(PATH)" ninja -v -C build/debian
+
+override_dh_auto_test:
+	PATH="$(DH_DTEE_BIN):$(PATH)" ninja -v -C build/debian test
+
+override_dh_auto_install:
+	PATH="$(DH_DTEE_BIN):$(PATH)" DESTDIR="$(CURDIR)/debian/dtee" ninja -v -C build/debian install
+	ln -sf dtee "$(CURDIR)/debian/dtee/usr/bin/cronty"
+	ln -sf dtee.1 "$(CURDIR)/debian/dtee/usr/share/man/man1/cronty.1"
