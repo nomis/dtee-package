@@ -24,6 +24,11 @@ for file in .dsc .debian.tar.xz; do
 	chmod a-w "$filename"
 done
 
+case "$DEB_RELEASE" in
+	stretch) DDEB=deb ;;
+	*) DDEB=ddeb ;;
+esac
+
 for arch in $ARCHES; do
 	filename="deb/$DEB_DIR/${JFROG_PKG}_${DEB_VER}_$arch.deb"
 	if [ ! -e "$filename" ]; then
@@ -33,7 +38,7 @@ for arch in $ARCHES; do
 	chmod a-w "$filename"
 
 	if [ "$DEB_RELEASE" != "jessie" ] && [ "$DEB_RELEASE" != "xenial" ]; then
-		filename="deb/$DEB_DIR/$JFROG_PKG-dbgsym_${DEB_VER}_$arch.deb"
+		filename="deb/$DEB_DIR/$JFROG_PKG-dbgsym_${DEB_VER}_$arch.$DDEB"
 		if [ ! -e "$filename" ]; then
 			echo "$filename missing"
 			exit 1
@@ -83,7 +88,7 @@ else
 
 		if [ "$DEB_RELEASE" != "jessie" ] && [ "$DEB_RELEASE" != "xenial" ]; then
 			echo "Uploading $arch binary debug symbols"
-			jfrog bt upload --publish --deb "$DEB_RELEASE/main/$arch" "deb/$DEB_DIR/${JFROG_PKG}-dbgsym_${DEB_VER}_$arch.deb" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/" || exit 1
+			jfrog bt upload --publish --deb "$DEB_RELEASE/main/$arch" "deb/$DEB_DIR/${JFROG_PKG}-dbgsym_${DEB_VER}_$arch.$DDEB" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/" || exit 1
 		fi
 	done
 
