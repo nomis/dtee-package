@@ -13,17 +13,22 @@ chmod a-w source/"$JFROG_PKG"-"$TAG".tar.gz
 rm -f "source/"$JFROG_PKG"-$TAG.tar"
 
 jfrog bt version-show "$JFROG_VERSION" 1>.tmp1 2>.tmp2
-grep -F "Bintray response: 404" .tmp2 >/dev/null
 if [ $? -eq 0 ]; then
-	echo "Creating version $TAG"
-
-	TAG_TS=$(GIT_DIR="$JFROG_PKG".git git for-each-ref --format="%(creatordate:iso8601-strict)" refs/tags/"$TAG")
-	TAG_DESC=$(GIT_DIR="$JFROG_PKG".git git for-each-ref --format="%(subject)" refs/tags/"$TAG")
-	jfrog bt version-create --desc="$TAG_DESC" --vcs-tag="$TAG" --released="$TAG_TS" "$JFROG_VERSION" || exit 1
-
-	jfrog bt version-show "$JFROG_VERSION" 1>.tmp1 2>.tmp2
-else
 	echo "Version $TAG exists"
+else
+	grep -F "Bintray response: 404" .tmp2 >/dev/null
+	if [ $? -eq 0 ]; then
+		echo "Creating version $TAG"
+
+		TAG_TS=$(GIT_DIR="$JFROG_PKG".git git for-each-ref --format="%(creatordate:iso8601-strict)" refs/tags/"$TAG")
+		TAG_DESC=$(GIT_DIR="$JFROG_PKG".git git for-each-ref --format="%(subject)" refs/tags/"$TAG")
+		jfrog bt version-create --desc="$TAG_DESC" --vcs-tag="$TAG" --released="$TAG_TS" "$JFROG_VERSION" || exit 1
+
+		jfrog bt version-show "$JFROG_VERSION" 1>.tmp1 2>.tmp2
+	else
+		echo "Version $TAG unknown error"
+		exit 1
+	fi
 fi
 
 PUBLISHED=$(python3 -c 'import json, sys; print(json.load(sys.stdin)["published"])' < .tmp1)
@@ -31,7 +36,7 @@ if [ "$PUBLISHED" = "True" ]; then
 	echo "Version $TAG already published"
 elif [ "$PUBLISHED" = "False" ]; then
 	echo "Uploading files"
-	jfrog bt upload --publish source/"$JFROG_PKG"-"$TAG".tar.gz "$JFROG_VERSION" || exit 1
+	jfrog bt upload --publish source/"$JFROG_PKG-$TAG".tar.gz "$JFROG_VERSION" || exit 1
 
 	echo "Publishing version"
 	jfrog bt version-publish "$JFROG_VERSION" || exit 1
