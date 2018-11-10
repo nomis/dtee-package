@@ -6,13 +6,13 @@ while read -r tag; do
 	echo
 	echo "Source: $tag"
 	bash upload-source.sh "$tag" </dev/null || exit 1
-done < <(GIT_DIR=dtee.git git tag | sort -n -r)
+done < <(GIT_DIR=dtee.git git tag | sort -n)
 
 while read -r tag; do
 	echo
 	echo "Debian: $tag"
 	bash upload-deb.sh "$tag" amd64 </dev/null || exit 1
-done < <(git tag | grep -E -e ^debian -e ^ubuntu | sort -n -r)
+done < <(git tag | grep -E -e ^debian -e ^ubuntu | sort -n)
 
 echo
 echo OK
