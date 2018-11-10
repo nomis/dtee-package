@@ -1,5 +1,5 @@
-dtee (0.0.0-1) stretch; urgency=low
+dtee (0.0.0-1) bionic; urgency=low
 
   * Initial release
 
- -- Simon Arlott <debian@sa.me.uk>  Sat, 10 Nov 2018 10:09:32 +0000
+ -- Simon Arlott <ubuntu@sa.me.uk>  Sat, 10 Nov 2018 19:15:09 +0000
