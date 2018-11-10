@@ -1,5 +1,5 @@
-dtee (0.0.0-1) jessie; urgency=low
+dtee (0.0.0-1) xenial; urgency=low
 
   * Initial release
 
- -- Simon Arlott <debian@sa.me.uk>  Sat, 10 Nov 2018 16:24:51 +0000
+ -- Simon Arlott <ubuntu@sa.me.uk>  Sat, 10 Nov 2018 18:37:03 +0000

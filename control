@@ -1,11 +1,11 @@
 Source: dtee
 Section: utils
 Priority: optional
-Maintainer: Simon Arlott <debian@sa.me.uk>
-Build-Depends: debhelper (>=9), python3 (>=3.4.2), virtualenv (>=1.11.6),
- libboost-dev (>=1.55), libboost-filesystem-dev (>=1.55),
- libboost-program-options-dev (>=1.55)
-Standards-Version: 3.9.6
+Maintainer: Simon Arlott <ubuntu@sa.me.uk>
+Build-Depends: debhelper (>=9), python3 (>=3.5), virtualenv (>=15.0.1),
+ libboost-dev (>=1.58), libboost-filesystem-dev (>=1.58),
+ libboost-program-options-dev (>=1.58), python3-sphinx (>=1.3.6)
+Standards-Version: 3.9.7
 Homepage: https://dtee.readthedocs.io/
 
 Package: dtee
