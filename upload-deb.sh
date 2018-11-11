@@ -13,6 +13,7 @@ if [ ! -e "$filename" ]; then
 	exit 1
 fi
 cmp "$filename" "source/$JFROG_PKG-$PKG_VER.tar.gz" || exit 1
+ln -sf "../../source/$JFROG_PKG-$PKG_VER.tar.gz" "deb/$DEB_DIR/${JFROG_PKG}_$PKG_VER.orig.tar.gz" || exit 1
 chmod a-w "$filename"
 
 for file in .dsc .debian.tar.xz; do
