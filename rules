@@ -8,8 +8,8 @@ DH_DTEE_BIN=$(CURDIR)/build/virtualenv/dtee/bin
 override_dh_auto_build:
 	virtualenv --python /usr/bin/python3 build/virtualenv/dtee
 	build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install -r debian/requirements.txt --no-deps --ignore-installed
-	PATH="$(DH_DTEE_BIN):$(PATH)" meson --prefix /usr --buildtype=plain build/debian
-	PATH="$(DH_DTEE_BIN):$(PATH)" ninja -v -C build/debian -j 1
+	PATH="$(DH_DTEE_BIN):$(PATH)" meson --prefix /usr --buildtype=plain build/debian --unity on
+	PATH="$(DH_DTEE_BIN):$(PATH)" ninja -v -C build/debian
 
 override_dh_auto_test:
 	PATH="$(DH_DTEE_BIN):$(PATH)" ninja -v -C build/debian test
