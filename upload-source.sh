@@ -41,7 +41,7 @@ elif [ "$PUBLISHED" = "False" ]; then
 	echo "Publishing version"
 	jfrog bt version-publish "$JFROG_VERSION" || exit 1
 
-	firefox "https://bintray.com/artifact/showArtifactInDownloadList?versionPath=${JFROG_PKG}%2F${TAG}&pkgPath=&basePath=&artifactPath=%2F${JFROG_ORG}%2F${JFROG_REPO}%2F${JFROG_PKG}-${TAG}.tar.gz&order=asc&sort=name"
+	xdg-open "https://bintray.com/artifact/showArtifactInDownloadList?versionPath=${JFROG_PKG}%2F${TAG}&pkgPath=&basePath=&artifactPath=%2F${JFROG_ORG}%2F${JFROG_REPO}%2F${JFROG_PKG}-${TAG}.tar.gz&order=asc&sort=name"
 else
 	echo "Version publish state \"$PUBLISHED\" unknown"
 	exit 1
