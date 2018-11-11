@@ -53,7 +53,7 @@ PATH="$VENV_DTEE_BIN:$PATH" \
 	CXXFLAGS="$RPM_OPT_FLAGS" \
 	LDFLAGS="$RPM_LD_FLAGS" \
 	meson \
-	--prefix /usr \
+	--prefix "%{_prefix}" \
 	--bindir "%{_bindir}" \
 	--mandir "%{_mandir}" \
 	--buildtype=plain \
