@@ -9,7 +9,7 @@ Source0: https://dl.bintray.com/dtee/source/%{name}-%{version}.tar.gz
 
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel
 BuildRequires: bash, coreutils, diffutils, findutils, grep
-BuildRequires: meson >= 0.46.0, ninja-build >= 1.8.2, python2-sphinx >= 1.6
+BuildRequires: meson >= 0.47.0, ninja-build >= 1.8.2, python2-sphinx >= 1.7
 
 %description
 Run a program with standard output and standard error copied to files while
