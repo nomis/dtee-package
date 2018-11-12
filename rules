@@ -7,8 +7,16 @@ DH_DTEE_BIN=$(CURDIR)/build/virtualenv/dtee/bin
 
 override_dh_auto_build:
 	virtualenv --python /usr/bin/python3 build/virtualenv/dtee
+	build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install --upgrade pip==8.1.1 --no-deps --ignore-installed
 	build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install -r debian/requirements.txt --no-deps --ignore-installed
 	PATH="$(DH_DTEE_BIN):$(PATH)" meson --prefix /usr --buildtype=plain build/debian --unity on
+
+	if ! grep -F "op->signal_number_ = reg->signal_number_" "/usr/include/boost/asio/detail/impl/signal_set_service.ipp" >/dev/null; then \
+		mkdir -p build/debian/boost/asio/detail/impl; \
+		cp "/usr/include/boost/asio/detail/impl/signal_set_service.ipp" build/debian/boost/asio/detail/impl/; \
+		patch -p2 -d build/debian < debian/patches/749e9d221960c6703220eaf4c99b6ee913db7607.patch; \
+	fi
+
 	PATH="$(DH_DTEE_BIN):$(PATH)" ninja -v -C build/debian
 
 override_dh_auto_test:

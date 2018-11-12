@@ -1,11 +1,5 @@
-dtee (0.0.1-1) xenial; urgency=medium
-
-  * New version
-
- -- Simon Arlott <ubuntu@sa.me.uk>  Mon, 12 Nov 2018 19:54:31 +0000
-
-dtee (0.0.0-1) xenial; urgency=low
+dtee (0.0.1-1) trusty; urgency=medium
 
   * Initial release
 
- -- Simon Arlott <ubuntu@sa.me.uk>  Sat, 10 Nov 2018 18:37:03 +0000
+ -- Simon Arlott <ubuntu@sa.me.uk>  Mon, 12 Nov 2018 20:53:46 +0000

@@ -1,6 +1,15 @@
---- a/meson.build
-+++ b/meson.build
-@@ -8,7 +8,7 @@
+Index: dtee-0.0.1/meson.build
+===================================================================
+--- dtee-0.0.1.orig/meson.build	2018-11-12 20:37:29.308252948 +0000
++++ dtee-0.0.1/meson.build	2018-11-12 20:43:19.112252948 +0000
+@@ -2,13 +2,13 @@
+ 	['c', 'cpp'],
+ 	default_options: [
+ 		'c_std=c11',
+-		'cpp_std=c++14',
++		'cpp_std=c++11',
+ 		'warning_level=3',
+ 		'werror=true',
  	],
  	version: '0.0.0',
  	license: 'GPL3+',
