@@ -4,8 +4,10 @@ DEB_DIR="${TAG%%/*}"
 DEB_RELEASE="${DEB_DIR##*-}"
 DEB_VER="${TAG##*/}"
 PKG_VER="${DEB_VER%%-*}"
+VER_GROUP="${PKG_VER%.*}"
 JFROG_REPO="${TAG%%-*}"
 JFROG_VERSION="$JFROG_ORG/$JFROG_REPO/$JFROG_PKG/$PKG_VER"
+
 
 filename="deb/$DEB_DIR/${JFROG_PKG}_$PKG_VER.orig.tar.gz"
 if [ ! -e "$filename" ]; then
@@ -69,34 +71,34 @@ else
 	fi
 fi
 
-jfrog bt download-file "$JFROG_ORG/$JFROG_REPO/pool/$DEB_RELEASE/main/$JFROG_PKG/${JFROG_PKG}_$PKG_VER.orig.tar.gz" .tmp-null
+jfrog bt download-file "$JFROG_ORG/$JFROG_REPO/pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/${JFROG_PKG}_$PKG_VER.orig.tar.gz" .tmp-null
 if [ $? -eq 0 ]; then
 	echo "Original source already exists"
 else
 	echo "Uploading original source"
-	jfrog bt upload --publish --deb "$DEB_RELEASE/main/source" "deb/$DEB_DIR/${JFROG_PKG}_$PKG_VER.orig.tar.gz" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/" || exit 1
+	jfrog bt upload --publish --deb "$DEB_RELEASE/main/source" "deb/$DEB_DIR/${JFROG_PKG}_$PKG_VER.orig.tar.gz" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/" || exit 1
 fi
 rm -rf .tmp-null
 
-jfrog bt download-file "$JFROG_ORG/$JFROG_REPO/pool/$DEB_RELEASE/main/$JFROG_PKG/${JFROG_PKG}_${DEB_VER}.dsc" .tmp-null
+jfrog bt download-file "$JFROG_ORG/$JFROG_REPO/pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/${JFROG_PKG}_${DEB_VER}.dsc" .tmp-null
 if [ $? -eq 0 ]; then
 	echo "Files for $TAG already exist"
 else
 	echo "Uploading debian source"
-	jfrog bt upload --publish --deb "$DEB_RELEASE/main/source" "deb/$DEB_DIR/${JFROG_PKG}_$DEB_VER.debian.tar.xz" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/" || exit 1
+	jfrog bt upload --publish --deb "$DEB_RELEASE/main/source" "deb/$DEB_DIR/${JFROG_PKG}_$DEB_VER.debian.tar.xz" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/" || exit 1
 
 	for arch in $ARCHES; do
 		echo "Uploading $arch binary"
-		jfrog bt upload --publish --deb "$DEB_RELEASE/main/$arch" "deb/$DEB_DIR/${JFROG_PKG}_${DEB_VER}_$arch.deb" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/" || exit 1
+		jfrog bt upload --publish --deb "$DEB_RELEASE/main/$arch" "deb/$DEB_DIR/${JFROG_PKG}_${DEB_VER}_$arch.deb" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/" || exit 1
 
 		if [ "$DEB_RELEASE" != "jessie" ] && [ "$DEB_RELEASE" != "xenial" ]; then
 			echo "Uploading $arch binary debug symbols"
-			jfrog bt upload --publish --deb "$DEB_RELEASE/main/$arch" "deb/$DEB_DIR/${JFROG_PKG}-dbgsym_${DEB_VER}_$arch.$DDEB" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/" || exit 1
+			jfrog bt upload --publish --deb "$DEB_RELEASE/main/$arch" "deb/$DEB_DIR/${JFROG_PKG}-dbgsym_${DEB_VER}_$arch.$DDEB" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/" || exit 1
 		fi
 	done
 
 	echo "Uploading descriptor"
-	jfrog bt upload --publish --deb "$DEB_RELEASE/main/source" "deb/$DEB_DIR/${JFROG_PKG}_$DEB_VER.dsc" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/" || exit 1
+	jfrog bt upload --publish --deb "$DEB_RELEASE/main/source" "deb/$DEB_DIR/${JFROG_PKG}_$DEB_VER.dsc" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/" || exit 1
 fi
 rm -rf pool .tmp-null
 

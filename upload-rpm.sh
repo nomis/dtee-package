@@ -5,6 +5,7 @@ RPM_DISTRO="${RPM_DIR%%-*}"
 RPM_RELEASE="${RPM_DIR##*-}"
 RPM_VER="${TAG##*/}"
 PKG_VER="${RPM_VER%%-*}"
+VER_GROUP="${PKG_VER%.*}"
 
 case "$RPM_DISTRO" in
 	rhel)
@@ -66,7 +67,7 @@ else
 	fi
 fi
 
-jfrog bt download-file "$JFROG_ORG/$JFROG_REPO/$RPM_RELEASE/source/${JFROG_PKG}-${RPM_VER}.${RPM_ID}.src.rpm" .tmp-null
+jfrog bt download-file "$JFROG_ORG/$JFROG_REPO/$RPM_RELEASE/source/$JFROG_PKG/$VER_GROUP/${JFROG_PKG}-${RPM_VER}.${RPM_ID}.src.rpm" .tmp-null
 if [ $? -eq 0 ]; then
 	echo "Files for $TAG already exist"
 else
@@ -74,12 +75,12 @@ else
 		for file in "${VARIANTS[@]}"; do
 			filename="rpm/$RPM_DIR/${JFROG_PKG}$file-${RPM_VER}.${RPM_ID}.$arch.rpm"
 			echo "Uploading $arch binary$file"
-			jfrog bt upload --publish "$filename" "$JFROG_VERSION" "$RPM_RELEASE/$arch/" || exit 1
+			jfrog bt upload --publish "$filename" "$JFROG_VERSION" "$RPM_RELEASE/$arch/$JFROG_PKG/$VER_GROUP/" || exit 1
 		done
 	done
 
 	echo "Uploading source"
-	jfrog bt upload --publish "rpm/$RPM_DIR/${JFROG_PKG}-${RPM_VER}.${RPM_ID}.src.rpm" "$JFROG_VERSION" "$RPM_RELEASE/source/" || exit 1
+	jfrog bt upload --publish "rpm/$RPM_DIR/${JFROG_PKG}-${RPM_VER}.${RPM_ID}.src.rpm" "$JFROG_VERSION" "$RPM_RELEASE/source/$JFROG_PKG/$VER_GROUP/" || exit 1
 fi
 rm -rf pool .tmp-null
 
