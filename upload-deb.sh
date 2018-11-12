@@ -42,7 +42,7 @@ for arch in $ARCHES; do
 	fi
 	chmod a-w "$filename"
 
-	if [ "$DEB_RELEASE" != "jessie" ] && [ "$DEB_RELEASE" != "xenial" ]; then
+	if [ "$DEB_RELEASE" != "jessie" ] && [ "$DEB_RELEASE" != "trusty" ] && [ "$DEB_RELEASE" != "xenial" ]; then
 		filename="deb/$DEB_DIR/$JFROG_PKG-dbgsym_${DEB_VER}_$arch.$DDEB"
 		if [ ! -e "$filename" ]; then
 			echo "$filename missing"
@@ -91,7 +91,7 @@ else
 		echo "Uploading $arch binary"
 		jfrog bt upload --publish --deb "$DEB_RELEASE/main/$arch" "deb/$DEB_DIR/${JFROG_PKG}_${DEB_VER}_$arch.deb" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/" || exit 1
 
-		if [ "$DEB_RELEASE" != "jessie" ] && [ "$DEB_RELEASE" != "xenial" ]; then
+		if [ "$DEB_RELEASE" != "jessie" ] && [ "$DEB_RELEASE" != "trusty" ] && [ "$DEB_RELEASE" != "xenial" ]; then
 			echo "Uploading $arch binary debug symbols"
 			jfrog bt upload --publish --deb "$DEB_RELEASE/main/$arch" "deb/$DEB_DIR/${JFROG_PKG}-dbgsym_${DEB_VER}_$arch.$DDEB" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/" || exit 1
 		fi
