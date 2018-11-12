@@ -20,7 +20,13 @@ if [ ! -h "$filename" ]; then
 fi
 chmod a-w "$filename"
 
-for file in .dsc .debian.tar.xz; do
+if [ "$DEB_RELEASE" != "trusty" ]; then
+	DEB_TAR=xz
+else
+	DEB_TAR=gz
+fi
+
+for file in .dsc .debian.tar.$DEB_TAR; do
 	filename="deb/$DEB_DIR/${JFROG_PKG}_$DEB_VER$file"
 	if [ ! -e "$filename" ]; then
 		echo "$filename missing"
@@ -85,7 +91,7 @@ if [ $? -eq 0 ]; then
 	echo "Files for $TAG already exist"
 else
 	echo "Uploading debian source"
-	jfrog bt upload --publish --deb "$DEB_RELEASE/main/source" "deb/$DEB_DIR/${JFROG_PKG}_$DEB_VER.debian.tar.xz" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/" || exit 1
+	jfrog bt upload --publish --deb "$DEB_RELEASE/main/source" "deb/$DEB_DIR/${JFROG_PKG}_$DEB_VER.debian.tar.$DEB_TAR" "$JFROG_VERSION" "pool/$DEB_RELEASE/main/$JFROG_PKG/$VER_GROUP/" || exit 1
 
 	for arch in $ARCHES; do
 		echo "Uploading $arch binary"
