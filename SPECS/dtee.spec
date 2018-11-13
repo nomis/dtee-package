@@ -14,7 +14,8 @@ BuildRequires: bash, coreutils, diffutils, findutils, grep
 BuildRequires: scl-utils
 
 # rhel-server-rhscl-7-rpms
-BuildRequires: rh-python36, rh-python36-python-virtualenv
+BuildRequires: rh-python36
+BuildRequires: %scl_require_package rh-python36 python-virtualenv
 
 %description
 Run a program with standard output and standard error copied to files while
