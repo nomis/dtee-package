@@ -11,6 +11,7 @@ Source1: https://github.com/boostorg/asio/commit/749e9d221960c6703220eaf4c99b6ee
 # rhel-7-server-rpms
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel
 BuildRequires: bash, coreutils, diffutils, findutils, grep
+BuildRequires: scl-utils
 
 # rhel-server-rhscl-7-rpms
 BuildRequires: rh-python36, rh-python36-python-virtualenv
@@ -27,7 +28,17 @@ be written as normal and the exit code will be appended to standard error.
 
 %prep
 %setup -q
-/opt/rh/rh-python36/root%{_bindir}/virtualenv --python /opt/rh/rh-python36/root%{_bindir}/python3 build/virtualenv/dtee
+
+set +e
+source scl_source enable rh-python36
+RET=$?
+set -e
+if [ $RET -ne 0 ]; then
+	echo SCL missing
+	exit 1
+fi
+
+virtualenv build/virtualenv/dtee
 build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
 	--upgrade pip==8.1.1 --no-deps --ignore-installed
 build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
@@ -47,6 +58,16 @@ build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
 	--no-deps --ignore-installed
 
 %build
+
+set +e
+source scl_source enable rh-python36
+RET=$?
+set -e
+if [ $RET -ne 0 ]; then
+	echo SCL missing
+	exit 1
+fi
+
 VENV_DTEE_BIN="$PWD/build/virtualenv/dtee/bin"
 PATH="$VENV_DTEE_BIN:$PATH" \
 	CFLAGS="$RPM_OPT_FLAGS" \
