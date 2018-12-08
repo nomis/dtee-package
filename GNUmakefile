@@ -4,7 +4,7 @@ URL=https://github.com/nomis/dtee
 
 all: dtee.git
 	GIT_DIR=dtee.git git fetch --tags
-	bash upload-all-tags.sh
+	python3 upload_all_tags.py
 
 dtee.git:
 	git clone --bare "$(URL)" "$@"

@@ -1,2 +1,5 @@
+credentials.yaml
 *.git
-.tmp*
+*.py?
+__pycache__
+.*project
