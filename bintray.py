@@ -51,13 +51,13 @@ def __version_exists(org, repo, pkg, version):
 def __version_create(org, repo, pkg, version, tag, ts, desc):
 	path = f"{org}/{repo}/{pkg}/{version}"
 	print(f"  Bintray => Create version {version} released at {ts}")
-	(success, code, data) = __api_request("POST", f"/packages/{org}/{repo}/{pkg}/versions/{version}", params={
+	(success, code, data) = __api_request("POST", f"/packages/{org}/{repo}/{pkg}/versions", data=json.dumps({
 			"name": version,
 			"vcs_tag": tag,
 			"released": ts,
 			"desc": desc,
 			"published": False,
-		})
+		}))
 	if success:
 		__VERSIONS.add(path)
 	else:
@@ -73,7 +73,7 @@ def __version_published(org, repo, pkg, version):
 def __version_publish(org, repo, pkg, version):
 	path = f"{org}/{repo}/{pkg}/{version}"
 	print(f"  Bintray => Publish version {version}")
-	(success, code, data) = __api_request("PATCH", f"/packages/{org}/{repo}/{pkg}/versions/{version}", params={ "published": True })
+	(success, code, data) = __api_request("PATCH", f"/packages/{org}/{repo}/{pkg}/versions/{version}", data=json.dumps({ "published": True }))
 	if success:
 		__PUBLISHED.add(path)
 	else:
