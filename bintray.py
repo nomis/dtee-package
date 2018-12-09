@@ -35,22 +35,23 @@ def __api_request(method, path, **kwargs):
 	result = requests.request(method, f"{API_URL}{path}", auth=(__CREDENTIALS["user"], __CREDENTIALS["key"]), **kwargs)
 	if result.status_code < 200 or (result.status_code >= 300 and result.status_code < 400) or result.status_code >= 500:
 		raise Exception(f"API response for {method} {path}: {result.status_code} ({repr(result.content)})")
-	return (result.status_code < 400, json.loads(result.content) if result.content else None)
+	return (result.status_code < 400, result.status_code, json.loads(result.content) if result.content else None)
 
 def __version_exists(org, repo, pkg, version):
 	path = f"{org}/{repo}/{pkg}/{version}"
 	if path not in __VERSIONS:
 		print(f"  Bintray <= Query version {version}")
-		(success, data) = __api_request("GET", f"/packages/{org}/{repo}/{pkg}/versions/{version}")
-		__VERSIONS.add(path)
-		if success and data["published"]:
-			__PUBLISHED.add(path)
+		(success, code, data) = __api_request("GET", f"/packages/{org}/{repo}/{pkg}/versions/{version}")
+		if success:
+			__VERSIONS.add(path)
+			if data["published"]:
+				__PUBLISHED.add(path)
 	return path in __VERSIONS
 
 def __version_create(org, repo, pkg, version, tag, ts, desc):
 	path = f"{org}/{repo}/{pkg}/{version}"
 	print(f"  Bintray => Create version {version} released at {ts}")
-	(success, data) = __api_request("POST", f"/packages/{org}/{repo}/{pkg}/versions/{version}", params={
+	(success, code, data) = __api_request("POST", f"/packages/{org}/{repo}/{pkg}/versions/{version}", params={
 			"name": version,
 			"vcs_tag": tag,
 			"released": ts,
@@ -59,6 +60,8 @@ def __version_create(org, repo, pkg, version, tag, ts, desc):
 		})
 	if success:
 		__VERSIONS.add(path)
+	else:
+		raise Exception(f"Unable to create version: {code} ({repr(data)})")
 
 def __version_published(org, repo, pkg, version):
 	if not __version_exists(org, repo, pkg, version):
@@ -70,18 +73,20 @@ def __version_published(org, repo, pkg, version):
 def __version_publish(org, repo, pkg, version):
 	path = f"{org}/{repo}/{pkg}/{version}"
 	print(f"  Bintray => Publish version {version}")
-	(success, data) = __api_request("PATCH", f"/packages/{org}/{repo}/{pkg}/versions/{version}", params={ "published": True })
+	(success, code, data) = __api_request("PATCH", f"/packages/{org}/{repo}/{pkg}/versions/{version}", params={ "published": True })
 	if success:
 		__PUBLISHED.add(path)
+	else:
+		raise Exception(f"Unable to publish version: {code} ({repr(data)})")
 
 def __file_exists(org, repo, pkg, version, source, target):
 	if (org, repo, version) not in __FILES:
 		print(f"  Bintray <= List files for version {version}")
-		(success, data) = __api_request("GET", f"/packages/{org}/{repo}/{pkg}/versions/{version}/files?include_unpublished=1")
+		(success, code, data) = __api_request("GET", f"/packages/{org}/{repo}/{pkg}/versions/{version}/files?include_unpublished=1")
 		if success:
 			__FILES[(org, repo, version)] = dict((file["path"], (file["size"], file["sha256"])) for file in data)
 		else:
-			return False
+			raise Exception(f"Unable to list files: {code} ({repr(data)})")
 
 	if target in __FILES[(org, repo, version)]:
 		local_size = os.stat(source).st_size
@@ -106,16 +111,18 @@ def __file_upload(org, repo, pkg, version, source, target, debian=None):
 	local_hash = m.hexdigest()
 	if debian is not None:
 		print(f"  Bintray => Upload file {target} for {debian}")
-		(success, data) = __api_request("PUT",
+		(success, code, data) = __api_request("PUT",
 			f"/content/{org}/{repo}/{pkg}/{version}/{target};deb_distribution={debian[0]};deb_component={debian[1]};deb_architecture={debian[2]}?publish=1",
 			data=content, headers={ "X-Checksum-Sha2": local_hash })
 	else:
 		print(f"  Bintray => Upload file {target}")
-		(success, data) = __api_request("PUT",
+		(success, code, data) = __api_request("PUT",
 			f"/content/{org}/{repo}/{pkg}/{version}/{target}?publish=1",
 			data=content, headers={ "X-Checksum-Sha2": local_hash })
 	if success:
 		__FILES[(org, repo, target)] = (os.stat(source).st_size, local_hash)
+	else:
+		raise Exception(f"Unable to upload file: {code} ({repr(data)})")
 
 
 def create_version(org, repo, pkg, version, tag):
