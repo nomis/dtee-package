@@ -29,7 +29,7 @@ def for_tag(org, pkg, tag, arches):
 	pkg_version = deb_version.split("-")[0] # 1.0.0
 	pkg_version_group = ".".join(pkg_version.split(".")[:-1]) # 1.0
 
-	source_filename = f"source/{pkg}-{tag}.tar.gz"
+	source_filename = f"source/{pkg}-{pkg_version}.tar.gz"
 	orig_filename = f"{deb_dir}/{pkg}_{pkg_version}.orig.tar.gz"
 	if not os.path.exists(orig_filename):
 		raise FileNotFoundError("{orig_filename} missing")
