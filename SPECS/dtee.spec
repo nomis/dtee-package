@@ -1,5 +1,5 @@
 Name:    dtee
-Version: 0.0.1
+Version: 1.0.0
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
@@ -121,5 +121,7 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 %{_mandir}/man1/cronty.*
 
 %changelog
+* Sun Dec 09 2018 Simon Arlott <redhat@sa.me.uk> - 1.0.0-1
+- New version
 * Tue Nov 13 2018 Simon Arlott <redhat@sa.me.uk> - 0.0.1-1
 - Initial release
