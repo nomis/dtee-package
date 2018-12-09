@@ -28,9 +28,10 @@ Requires: %scl_require_package rh-mongodb34 boost-program-options
 Run a program with standard output and standard error copied to files while
 maintaining the original standard output and standard error as normal.
 
-Run a program from cron, suppressing all output unless the process outputs an
-error message or has a non-zero exit status whereupon the original output will
-be written as normal and the exit code will be appended to standard error.
+Can also operate in cron mode (implied when invoked as "cronty"). Suppresses
+all output unless the process outputs an error message or has a non-zero exit
+status whereupon the original output will be written as normal and the exit
+code will be appended to standard error.
 
 %global _hardened_build 1
 
