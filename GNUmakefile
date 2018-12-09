@@ -1,4 +1,4 @@
-.PHONY: all www supported
+.PHONY: all www supported metadata
 
 URL=https://github.com/nomis/dtee
 
@@ -21,3 +21,6 @@ supported:
 	xdg-open https://wiki.ubuntu.com/Releases
 	xdg-open https://access.redhat.com/support/policy/updates/errata/#Life_Cycle_Dates
 	xdg-open https://en.wikipedia.org/wiki/Fedora_version_history#Version_history
+
+metadata:
+	python3 check_metadata.py

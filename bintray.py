@@ -146,3 +146,9 @@ def upload_file(org, repo, pkg, version, source, target, debian=None):
 		__file_upload(org, repo, pkg, version, source, target, debian)
 	else:
 		print(f"  Bintray -- File {target} already exists")
+
+def calc_metadata(org, repo, path=""):
+	print(f"  Bintray => Calculate metadata for {org}/{repo}/{path}")
+	(success, code, data) = __api_request("POST", f"/calc_metadata/{org}/{repo}/{path}")
+	if not success:
+		raise Exception(f"Unable to recalculate metadata: {code} ({repr(data)})")
