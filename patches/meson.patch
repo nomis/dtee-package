@@ -9,6 +9,15 @@
  )
  
  source_files = [
+@@ -76,7 +76,7 @@
+ 	link_args = ['-Wl,--wrap=sigaction']
+ endif
+ 
+-python = import('python').find_installation()
++python = find_program('python3')
+ 
+ version_check = run_command(python, [files('docs/version_check.py'), files('docs/changelog.rst'), meson.project_version()])
+ if version_check.returncode() != 0
 @@ -242,9 +242,11 @@
  executable('test-writes-of-n-bytes', ['tests/writes-of-n-bytes.c'], c_args: test_c_args)
  
