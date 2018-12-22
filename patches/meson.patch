@@ -1,7 +1,7 @@
-Index: dtee-1.0.0/meson.build
+Index: dtee-1.0.1/meson.build
 ===================================================================
---- dtee-1.0.0.orig/meson.build	2018-12-09 11:10:07.685525727 +0000
-+++ dtee-1.0.0/meson.build	2018-12-09 11:10:19.273525727 +0000
+--- dtee-1.0.1.orig/meson.build	2018-12-22 14:33:01.987186672 +0000
++++ dtee-1.0.1/meson.build	2018-12-22 14:33:01.983186672 +0000
 @@ -2,13 +2,13 @@
  	['c', 'cpp'],
  	default_options: [
@@ -11,14 +11,14 @@ Index: dtee-1.0.0/meson.build
  		'warning_level=3',
  		'werror=true',
  	],
- 	version: '1.0.0',
+ 	version: '1.0.1',
  	license: 'GPL3+',
 -	meson_version: '>=0.46.0',
 +	meson_version: '>=0.44.1',
  )
  
  source_files = [
-@@ -243,9 +243,11 @@
+@@ -242,9 +242,11 @@
  executable('test-writes-of-n-bytes', ['tests/writes-of-n-bytes.c'], c_args: test_c_args)
  
  signal_txt = custom_target('signal.txt',
@@ -30,7 +30,7 @@ Index: dtee-1.0.0/meson.build
  	command: [generate_sysexits_txt],
  	output: 'sysexits.txt')
  all_test_txt = [signal_txt, sysexits_txt]
-@@ -262,233 +264,233 @@
+@@ -261,233 +263,233 @@
  xfail_small_writes = xfail_general_writes or ['dragonfly'].contains(host_machine.system())
  xfail_large_writes = xfail_general_writes
  
