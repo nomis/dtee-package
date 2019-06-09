@@ -68,7 +68,6 @@ build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
 	--no-deps --ignore-installed
 
 %build
-
 set +e
 source scl_source enable devtoolset-7 rh-python36
 RET=$?
@@ -99,7 +98,6 @@ PATH="$VENV_DTEE_BIN:$PATH" ninja -v -C build/redhat %{_smp_mflags}
 PATH="$VENV_DTEE_BIN:$PATH" ninja -v -C build/redhat test %{_smp_mflags}
 
 %install
-
 set +e
 source scl_source enable devtoolset-7 rh-python36
 RET=$?
@@ -109,6 +107,7 @@ if [ $RET -ne 0 ]; then
 	exit 1
 fi
 
+VENV_DTEE_BIN="$PWD/build/virtualenv/dtee/bin"
 PATH="$VENV_DTEE_BIN:$PATH" DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 ln -sf dtee "%{buildroot}%{_bindir}/cronty"
 ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
