@@ -50,7 +50,7 @@ def for_tag(org, pkg, tag, arches):
 	else:
 		deb_tar = "xz"
 
-	if deb_release == "stretch":
+	if deb_release in ["stretch", "buster"]:
 		ddeb = "deb"
 	else:
 		ddeb = "ddeb"
