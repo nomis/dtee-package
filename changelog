@@ -1,23 +1,5 @@
-dtee (1.0.1-1) stretch; urgency=medium
-
-  * New version
-
- -- Simon Arlott <debian@sa.me.uk>  Sat, 22 Dec 2018 14:27:11 +0000
-
-dtee (1.0.0-1) stretch; urgency=medium
-
-  * New version
-
- -- Simon Arlott <debian@sa.me.uk>  Sun, 09 Dec 2018 11:05:36 +0000
-
-dtee (0.0.1-1) stretch; urgency=medium
-
-  * New version
-
- -- Simon Arlott <debian@sa.me.uk>  Mon, 12 Nov 2018 19:51:40 +0000
-
-dtee (0.0.0-1) stretch; urgency=low
+dtee (1.0.1-1) buster; urgency=medium
 
   * Initial release
 
- -- Simon Arlott <debian@sa.me.uk>  Sat, 10 Nov 2018 10:09:32 +0000
+ -- Simon Arlott <debian@sa.me.uk>  Sun, 07 Jul 2019 11:28:55 +0100

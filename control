@@ -2,10 +2,10 @@ Source: dtee
 Section: utils
 Priority: optional
 Maintainer: Simon Arlott <debian@sa.me.uk>
-Build-Depends: debhelper (>=9), dh-virtualenv (>=1.0), python3 (>=3.5),
- libboost-dev (>=1.62), libboost-filesystem-dev (>=1.62),
- libboost-program-options-dev (>=1.62), python3-sphinx (>=1.4.9),
- dash (>=0.5.8), bash (>=4.4), coreutils (>=8.26), diffutils (>=1:3.5),
+Build-Depends: debhelper (>=12), meson (>=0.49.2), ninja-build (>=1.8.2),
+ libboost-dev (>=1.67), libboost-filesystem-dev (>=1.67),
+ libboost-program-options-dev (>=1.67), python3-sphinx (>=1.8.4),
+ dash (>=0.5.10), bash (>=5.0), coreutils (>=8.30), diffutils (>=1:3.7),
  findutils (>=4.6.0)
 Standards-Version: 3.9.8
 Homepage: https://dtee.readthedocs.io/
