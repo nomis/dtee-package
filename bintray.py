@@ -1,4 +1,4 @@
-# Copyright 2018  Simon Arlott
+# Copyright 2018,2020  Simon Arlott
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,8 +34,11 @@ with open("credentials.yaml", "rt") as f:
 def __api_request(method, path, **kwargs):
 	result = requests.request(method, f"{API_URL}{path}", auth=(__CREDENTIALS["user"], __CREDENTIALS["key"]), **kwargs)
 	if result.status_code < 200 or (result.status_code >= 300 and result.status_code < 400) or result.status_code >= 500:
-		raise Exception(f"API response for {method} {path}: {result.status_code} ({repr(result.content)})")
-	return (result.status_code < 400, result.status_code, json.loads(result.content) if result.content else None)
+		raise Exception(f"API response for {method} {path}: {result.status_code} {repr(result.headers)} ({repr(result.content)})")
+	try:
+		return (result.status_code < 400, result.status_code, json.loads(result.content) if result.content else None)
+	except json.decoder.JSONDecodeError:
+		raise Exception(f"API response for {method} {path}: {result.status_code} {repr(result.headers)} ({repr(result.content)})")
 
 def __version_exists(org, repo, pkg, version):
 	path = f"{org}/{repo}/{pkg}/{version}"
