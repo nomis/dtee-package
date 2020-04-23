@@ -19,6 +19,7 @@ import requests
 import subprocess
 import yaml
 import hashlib
+import time
 
 
 API_URL = "https://bintray.com/api/v1"
@@ -148,6 +149,7 @@ def create_version(org, repo, pkg, version, tag):
 
 def publish_version(org, repo, pkg, version):
 	if not __version_published(org, repo, pkg, version):
+		time.sleep(3)
 		__version_publish(org, repo, pkg, version)
 	else:
 		print(f"  Bintray -- Version {version} already published")
