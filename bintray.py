@@ -130,10 +130,18 @@ def __file_upload(org, repo, pkg, version, source, target, debian=None):
 
 def create_version(org, repo, pkg, version, tag):
 	if not __version_exists(org, repo, pkg, version):
+		source = True
 		ts = subprocess.run(["git", "for-each-ref", "--format=%(creatordate:iso8601-strict)", f"refs/tags/{tag}"],
 				env={ "GIT_DIR": f"{pkg}.git" }, stdout=subprocess.PIPE, check=True, universal_newlines=True).stdout.strip()
+		if not ts:
+			ts = subprocess.run(["git", "for-each-ref", "--format=%(creatordate:iso8601-strict)", f"refs/tags/{tag}"],
+					stdout=subprocess.PIPE, check=True, universal_newlines=True).stdout.strip()
+			source = False
+		assert ts, f"No timestamp for tag {tag}"
 		desc = subprocess.run(["git", "for-each-ref", "--format=%(subject)", f"refs/tags/{tag}"],
 				env={ "GIT_DIR": f"{pkg}.git" }, stdout=subprocess.PIPE, check=True, universal_newlines=True).stdout.strip()
+		if source and not desc:
+			assert ts, f"No description for tag {tag}"
 		__version_create(org, repo, pkg, version, tag, ts, desc)
 	else:
 		print(f"  Bintray -- Version {version} already exists")
