@@ -1,4 +1,4 @@
-# Copyright 2018  Simon Arlott
+# Copyright 2018,2020  Simon Arlott
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@ def for_tag(org, pkg, tag, arches):
 	(rpm_distro, rpm_release) = tag.split("/")[0].split("-") # rhel, 7
 	rpm_version = tag.split("/")[1] # 1.0.0-1
 	pkg_version = rpm_version.split("-")[0] # 1.0.0
+	pkg_version += f"-{rpm_release}-" # -7-
+	pkg_version += rpm_version.split("-")[1] # 1
 	pkg_version_group = ".".join(pkg_version.split(".")[:-1]) # 1.0
 
 	rpm_map = {
@@ -51,7 +53,7 @@ def for_tag(org, pkg, tag, arches):
 			raise Exception(f"File {filename} missing")
 		os.chmod(filename, stat.S_IMODE(os.stat(filename).st_mode) & ~(stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
 
-	bintray.create_version(org, repo, pkg, pkg_version, pkg_version)
+	bintray.create_version(org, repo, pkg, pkg_version, tag)
 	for (arch, filename) in files:
 		bintray.upload_file(org, repo, pkg, pkg_version, filename,
 						f"{rpm_release}/{arch}/{pkg}/{pkg_version_group}/{os.path.basename(filename)}")

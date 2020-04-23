@@ -1,4 +1,4 @@
-# Copyright 2018  Simon Arlott
+# Copyright 2018,2020  Simon Arlott
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,13 +26,15 @@ def for_tag(org, pkg, tag, arches):
 	deb_dir = "deb/" + tag.split("/")[0] # deb/debian-9-stretch
 	deb_release = tag.split("/")[0].split("-")[-1] # stretch
 	deb_version = tag.split("/")[1] # 1.0.0-1
-	pkg_version = deb_version.split("-")[0] # 1.0.0
+	pkg_version = src_pkg_version = deb_version.split("-")[0] # 1.0.0
+	pkg_version += f"-{deb_release}-" # -stretch-
+	pkg_version += deb_version.split("-")[1] # 1
 	pkg_version_group = ".".join(pkg_version.split(".")[:-1]) # 1.0
 
-	source_filename = f"source/{pkg}-{pkg_version}.tar.gz"
-	orig_filename = f"{deb_dir}/{pkg}_{pkg_version}.orig.tar.gz"
+	source_filename = f"source/{pkg}-{src_pkg_version}.tar.gz"
+	orig_filename = f"{deb_dir}/{pkg}_{src_pkg_version}.orig.tar.gz"
 	if not os.path.exists(orig_filename):
-		raise FileNotFoundError("{orig_filename} missing")
+		raise FileNotFoundError(f"{orig_filename} missing")
 
 	if stat.S_ISREG(os.lstat(orig_filename).st_mode):
 		with open(source_filename, "rb") as f:
@@ -70,7 +72,7 @@ def for_tag(org, pkg, tag, arches):
 			raise Exception(f"File {filename} missing")
 		os.chmod(filename, stat.S_IMODE(os.stat(filename).st_mode) & ~(stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
 
-	bintray.create_version(org, repo, pkg, pkg_version, pkg_version)
+	bintray.create_version(org, repo, pkg, pkg_version, tag)
 	for (arch, filename) in files:
 		bintray.upload_file(org, repo, pkg, pkg_version, filename,
 						f"pool/{deb_release}/main/{pkg}/{pkg_version_group}/{os.path.basename(filename)}",
