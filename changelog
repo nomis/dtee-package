@@ -1,23 +1,5 @@
-dtee (1.0.1-1) bionic; urgency=medium
-
-  * New version
-
- -- Simon Arlott <ubuntu@sa.me.uk>  Sat, 22 Dec 2018 14:38:08 +0000
-
-dtee (1.0.0-1) bionic; urgency=medium
-
-  * New version
-
- -- Simon Arlott <ubuntu@sa.me.uk>  Sun, 09 Dec 2018 11:28:57 +0000
-
-dtee (0.0.1-1) bionic; urgency=medium
-
-  * New version
-
- -- Simon Arlott <ubuntu@sa.me.uk>  Mon, 12 Nov 2018 19:58:24 +0000
-
-dtee (0.0.0-1) bionic; urgency=low
+dtee (1.0.1-1) focal; urgency=medium
 
   * Initial release
 
- -- Simon Arlott <ubuntu@sa.me.uk>  Sat, 10 Nov 2018 19:57:52 +0000
+ -- Simon Arlott <ubuntu@sa.me.uk>  Thu, 23 Apr 2020 20:36:57 +0000
