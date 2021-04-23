@@ -10,7 +10,7 @@ dtee.git:
 	git clone --bare "$(URL)" "$@"
 
 www:
-	find source/ deb/ rpm/ -type f -not -name .gitignore -exec chmod a-w {} \;
+	find source/ deb/ rpm/ -type f -not -name .gitignore -not -perm 0444 -exec chmod 444 {} \;
 	find source/ deb/ rpm/ -type f -not -name .gitignore -not -name '*.sig' -exec ./sign.sh {} \;
 	rsync -ai source/ skund:dtee-s85-org/source/ --exclude=.gitignore
 	rsync -ai deb/ skund:dtee-s85-org/deb/ --exclude=.gitignore
