@@ -1,4 +1,4 @@
-# Copyright 2018  Simon Arlott
+# Copyright 2018,2021  Simon Arlott
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,10 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import filecmp
 import os
+import shutil
 import subprocess
 
-import bintray
+from prepare_common import cp_file
 
 
 def for_tag(org, pkg, tag):
@@ -37,6 +39,4 @@ def for_tag(org, pkg, tag):
 	if os.path.exists(filename_tar):
 		os.unlink(filename_tar)
 
-	bintray.create_version(org, repo, pkg, version, tag)
-	bintray.upload_file(org, repo, pkg, version, filename_tar_gz, os.path.basename(filename_tar_gz))
-	bintray.publish_version(org, repo, pkg, version)
+	cp_file(org, repo, filename_tar_gz, os.path.basename(filename_tar_gz))

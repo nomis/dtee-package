@@ -1,4 +1,4 @@
-# Copyright 2018,2020  Simon Arlott
+# Copyright 2018,2020-2021  Simon Arlott
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,10 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import stat
+import glob
 import os
+import stat
+import subprocess
 
-import bintray
+from prepare_common import cp_file, chmod
 
 
 def for_tag(org, pkg, tag, arches):
@@ -51,10 +53,43 @@ def for_tag(org, pkg, tag, arches):
 	for (arch, filename) in files:
 		if not os.path.exists(filename):
 			raise Exception(f"File {filename} missing")
-		os.chmod(filename, stat.S_IMODE(os.stat(filename).st_mode) & ~(stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
+		chmod(filename, stat.S_IMODE(os.stat(filename).st_mode) & ~(stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
 
-	bintray.create_version(org, repo, pkg, pkg_version, tag)
 	for (arch, filename) in files:
-		bintray.upload_file(org, repo, pkg, pkg_version, filename,
-						f"{rpm_release}/{arch}/{pkg}/{pkg_version_group}/{os.path.basename(filename)}")
-	bintray.publish_version(org, repo, pkg, pkg_version)
+		cp_file(org, repo, filename, f"{rpm_release}/{arch}/{pkg}/{pkg_version_group}/{os.path.basename(filename)}")
+
+
+def for_repos(org, repo):
+	root = f"uuid-bin/{org}/{repo}"
+	for dir in sorted(glob.glob(f"{root}/*/*")):
+		repomd = f"{dir}/repodata/repomd.xml"
+
+		prev = None
+		try:
+			with open(repomd, "rb") as f:
+				prev = f.read()
+		except FileNotFoundError:
+			pass
+
+		subprocess.run(["createrepo", "--no-database", "-s", "sha256", "--compress-type=gz", "-C", dir], check=True)
+
+		with open(repomd, "rb") as f:
+			curr = f.read()
+
+		sig = repomd + ".asc"
+		if prev != curr:
+			try:
+				os.unlink(sig)
+			except FileNotFoundError:
+				pass
+
+		if not os.path.exists(sig):
+			subprocess.run(["gpg2", "--batch", "-a", "-b", "-u", "dtee.bin.uuid.uk", "-o", sig, "--", repomd], check=True)
+		p = subprocess.run(["gpgv", "--", sig, repomd], stderr=subprocess.PIPE)
+		assert p.returncode == 0, [repomd, sig, p.stderr]
+		chmod(sig)
+
+		akey = repomd + ".key"
+		if not os.path.exists(akey):
+			subprocess.run(["gpg2", "-a", "-o", akey, "--export", "dtee.bin.uuid.uk"], check=True)
+		chmod(akey)
