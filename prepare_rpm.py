@@ -38,7 +38,7 @@ def for_tag(org, pkg, tag, arches):
 	}
 	(repo, rpm_id) = rpm_map[rpm_distro]
 
-	if rpm_distro == "rhel":
+	if rpm_distro == "rhel" and int(rpm_release) < 8:
 		variants = ["", "-debuginfo"]
 	else:
 		variants = ["", "-debuginfo", "-debugsource"]
