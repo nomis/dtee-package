@@ -195,7 +195,7 @@ Components: main
 Architectures: {" ".join(arches)}
 """
 
-		for atext, aname in [("MD5Sum", "md5"), ("SHA1", "sha1"), ("SHA256", "sha256")]:
+		for atext, aname in [("MD5Sum", "md5"), ("SHA1", "sha1"), ("SHA256", "sha256"), ("SHA512", "sha512")]:
 			release += f"{atext}:\n"
 			for file in files:
 				with open(f"{root}/{file}", "rb") as f:
