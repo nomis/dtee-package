@@ -23,6 +23,8 @@ import subprocess
 def cp_file(org, repo, src, dst):
 	dst = f"uuid-bin/{org}/{repo}/{dst}"
 	sig = f"{dst}.asc"
+
+	chmod(src)
 	os.makedirs(os.path.dirname(dst), exist_ok=True)
 
 	try:
