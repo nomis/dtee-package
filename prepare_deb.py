@@ -75,7 +75,10 @@ def for_tag(org, pkg, tag, arches):
 		chmod(filename, stat.S_IMODE(os.stat(filename).st_mode) & ~(stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
 
 	for (arch, filename) in files:
-		cp_file(org, repo, filename, f"pool/{deb_release}/main/{pkg}/{pkg_version_group}/{os.path.basename(filename)}")
+		dst_filename = f"pool/{deb_release}/main/{pkg}/{pkg_version_group}/{os.path.basename(filename)}"
+		if dst_filename.endswith(".ddeb"):
+			dst_filename = dst_filename[:-5] + ".deb"
+		cp_file(org, repo, filename, dst_filename)
 
 
 def for_repos(org, repo):
