@@ -55,6 +55,12 @@ if __name__ == "__main__":
 			f.write("User-agent: *\nDisallow: /\n")
 	chmod(robots)
 
+	index = f"uuid-bin/{org}/index.html"
+	if not os.path.exists(index):
+		with open(index, "wt") as f:
+			pass
+	chmod(index)
+
 	for tag in source_tags(pkg):
 		prepare_source.for_tag(org, pkg, tag)
 
