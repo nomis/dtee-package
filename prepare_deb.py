@@ -59,9 +59,9 @@ def for_tag(org, pkg, tag, arches):
 		ddeb = "ddeb"
 
 	files = []
+	files.append(("source", orig_filename))
 	for suffix in [".dsc", f".debian.tar.{deb_tar}"]:
 		files.append(("source", f"{deb_dir}/{pkg}_{deb_version}{suffix}"))
-	files.append(("source", f"{deb_dir}/{pkg}_{src_pkg_version}.orig.tar.gz"))
 
 	for arch in arches:
 		files.append((arch, f"{deb_dir}/{pkg}_{deb_version}_{arch}.deb"))
