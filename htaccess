@@ -1,0 +1,8 @@
+IndexIgnore *.deb
+IndexIgnore *.rpm
+
+IndexIgnore InRelease* Release* Packages* Sources*
+IndexIgnore *.xml
+IndexIgnore *.gz *.bz2 *.xz
+
+IndexIgnore *.asc

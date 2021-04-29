@@ -15,10 +15,10 @@ www:
 	rsync -ai source/ skund:dtee-s85-org/source/ --exclude=.gitignore
 	rsync -ai deb/ skund:dtee-s85-org/deb/ --exclude=.gitignore
 	rsync -ai rpm/ skund:dtee-s85-org/rpm/ --exclude=.gitignore
-	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/* chalk:dtee-bin-uuid-uk/
-	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/* djelibeybi:dtee-bin-uuid-uk/
-	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/* papylos:dtee-bin-uuid-uk/
-	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/* skund:dtee-bin-uuid-uk/
+	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/.htaccess uuid-bin/dtee/* chalk:dtee-bin-uuid-uk/
+	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/.htaccess uuid-bin/dtee/* djelibeybi:dtee-bin-uuid-uk/
+	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/.htaccess uuid-bin/dtee/* papylos:dtee-bin-uuid-uk/
+	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/.htaccess uuid-bin/dtee/* skund:dtee-bin-uuid-uk/
 
 supported:
 	xdg-open https://wiki.debian.org/LTS

@@ -20,7 +20,7 @@ import stat
 import subprocess
 
 
-def cp_file(org, repo, src, dst):
+def cp_file(org, repo, src, dst, sign=True):
 	dst = f"uuid-bin/{org}/{repo}/{dst}"
 	sig = f"{dst}.asc"
 
@@ -33,12 +33,13 @@ def cp_file(org, repo, src, dst):
 		os.link(src, dst)
 	chmod(dst)
 
-	if not os.path.exists(sig):
-		subprocess.run(["gpg2", "--batch", "-a", "-b", "-u", "dtee.bin.uuid.uk", "-o", sig, "--", src], check=True)
-	p = subprocess.run(["gpgv", "--", sig, dst], stderr=subprocess.PIPE)
-	assert p.returncode == 0, [src, dst, p.stderr]
+	if sign:
+		if not os.path.exists(sig):
+			subprocess.run(["gpg2", "--batch", "-a", "-b", "-u", "dtee.bin.uuid.uk", "-o", sig, "--", src], check=True)
+		p = subprocess.run(["gpgv", "--", sig, dst], stderr=subprocess.PIPE)
+		assert p.returncode == 0, [src, dst, p.stderr]
 
-	chmod(sig)
+		chmod(sig)
 
 
 def chmod(filename, mode=0o444):

@@ -20,7 +20,7 @@ import prepare_source
 import prepare_deb
 import prepare_rpm
 
-from prepare_common import chmod
+from prepare_common import chmod, cp_file
 
 
 def source_tags(pkg):
@@ -49,17 +49,8 @@ if __name__ == "__main__":
 	org = "dtee"
 	pkg = "dtee"
 
-	robots = f"uuid-bin/{org}/robots.txt"
-	if not os.path.exists(robots):
-		with open(robots, "wt") as f:
-			f.write("User-agent: *\nDisallow: /\n")
-	chmod(robots)
-
-	index = f"uuid-bin/{org}/index.html"
-	if not os.path.exists(index):
-		with open(index, "wt") as f:
-			pass
-	chmod(index)
+	cp_file(org, "", "robots.txt", "robots.txt", False)
+	cp_file(org, "", "htaccess", ".htaccess", False)
 
 	for tag in source_tags(pkg):
 		prepare_source.for_tag(org, pkg, tag)
