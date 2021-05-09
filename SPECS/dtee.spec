@@ -5,7 +5,7 @@ Summary: Run a program with standard output and standard error copied to files
 
 License: GPLv3+
 URL:     https://dtee.readthedocs.io/
-Source0: https://dl.bintray.com/dtee/source/%{name}-%{version}.tar.gz
+Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel
 BuildRequires: bash, coreutils, diffutils, findutils, grep
