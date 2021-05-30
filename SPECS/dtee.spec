@@ -6,7 +6,6 @@ Summary: Run a program with standard output and standard error copied to files
 License: GPLv3+
 URL:     https://dtee.readthedocs.io/
 Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
-Source1: https://github.com/boostorg/asio/commit/749e9d221960c6703220eaf4c99b6ee913db7607.patch
 
 # rhel-6-server-rpms
 BuildRequires: glibc, make, gcc, gcc-c++, gettext
