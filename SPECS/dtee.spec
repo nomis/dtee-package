@@ -56,4 +56,6 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 
 %changelog
 * Sun May 30 2021 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
+- New version
+* Wed Dec 30 2020 Simon Arlott <redhat@sa.me.uk> - 1.0.1-1
 - Initial release
