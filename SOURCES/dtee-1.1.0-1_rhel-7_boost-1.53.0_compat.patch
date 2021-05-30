@@ -1,0 +1,104 @@
+diff --git a/src/application.cc b/src/application.cc
+index 2e8d02b..2420c4f 100644
+--- a/src/application.cc
++++ b/src/application.cc
+@@ -31,8 +31,8 @@
+ #include <vector>
+ 
+ #include <boost/asio.hpp>
+-#include <boost/core/demangle.hpp>
+ #include <boost/format.hpp>
++#include <boost/units/detail/utility.hpp>
+ 
+ #include "command_line.h"
+ #include "cron.h"
+@@ -50,8 +50,8 @@ extern "C" void __gcov_flush(void);
+ #endif
+ 
+ using ::boost::asio::io_service;
+-using ::boost::core::demangle;
+ using ::boost::format;
++using ::boost::units::detail::demangle;
+ using ::std::make_shared;
+ using ::std::make_unique;
+ using ::std::raise;
+diff --git a/tests/i18n/help-cronty,en_GB.out.txt b/tests/i18n/help-cronty,en_GB.out.txt
+index abe197d..a144096 100644
+--- a/tests/i18n/help-cronty,en_GB.out.txt
++++ b/tests/i18n/help-cronty,en_GB.out.txt
+@@ -14,9 +14,9 @@ Output files:
+   -C [ --combined-overwrite ] FILE copy standard output and error to FILE
+ 
+ Options:
+-  -i [ --ignore-interrupts ]       ignore interrupt signals
++  -i [ --ignore-interrupts ]  ignore interrupt signals
+ 
+ Miscellaneous:
+-  -h [ --help ]                    display this help and exit
+-  -V [ --version ]                 output version information and exit
++  -h [ --help ]         display this help and exit
++  -V [ --version ]      output version information and exit
+ 
+diff --git a/tests/i18n/help-cronty,en_US.out.txt b/tests/i18n/help-cronty,en_US.out.txt
+index abe197d..a144096 100644
+--- a/tests/i18n/help-cronty,en_US.out.txt
++++ b/tests/i18n/help-cronty,en_US.out.txt
+@@ -14,9 +14,9 @@ Output files:
+   -C [ --combined-overwrite ] FILE copy standard output and error to FILE
+ 
+ Options:
+-  -i [ --ignore-interrupts ]       ignore interrupt signals
++  -i [ --ignore-interrupts ]  ignore interrupt signals
+ 
+ Miscellaneous:
+-  -h [ --help ]                    display this help and exit
+-  -V [ --version ]                 output version information and exit
++  -h [ --help ]         display this help and exit
++  -V [ --version ]      output version information and exit
+ 
+diff --git a/tests/i18n/help-dtee,en_GB.out.txt b/tests/i18n/help-dtee,en_GB.out.txt
+index 3adb121..846a413 100644
+--- a/tests/i18n/help-dtee,en_GB.out.txt
++++ b/tests/i18n/help-dtee,en_GB.out.txt
+@@ -12,12 +12,12 @@ Output files:
+   -C [ --combined-overwrite ] FILE copy standard output and error to FILE
+ 
+ Options:
+-  -i [ --ignore-interrupts ]       ignore interrupt signals
+-  -q [ --cron ]                    operate in cron mode (suppress output unless
+-                                   the process outputs an error message or has 
+-                                   a non-zero exit status)
++  -i [ --ignore-interrupts ]  ignore interrupt signals
++  -q [ --cron ]               operate in cron mode (suppress output unless the 
++                              process outputs an error message or has a 
++                              non-zero exit status)
+ 
+ Miscellaneous:
+-  -h [ --help ]                    display this help and exit
+-  -V [ --version ]                 output version information and exit
++  -h [ --help ]         display this help and exit
++  -V [ --version ]      output version information and exit
+ 
+diff --git a/tests/i18n/help-dtee,en_US.out.txt b/tests/i18n/help-dtee,en_US.out.txt
+index 3adb121..846a413 100644
+--- a/tests/i18n/help-dtee,en_US.out.txt
++++ b/tests/i18n/help-dtee,en_US.out.txt
+@@ -12,12 +12,12 @@ Output files:
+   -C [ --combined-overwrite ] FILE copy standard output and error to FILE
+ 
+ Options:
+-  -i [ --ignore-interrupts ]       ignore interrupt signals
+-  -q [ --cron ]                    operate in cron mode (suppress output unless
+-                                   the process outputs an error message or has 
+-                                   a non-zero exit status)
++  -i [ --ignore-interrupts ]  ignore interrupt signals
++  -q [ --cron ]               operate in cron mode (suppress output unless the 
++                              process outputs an error message or has a 
++                              non-zero exit status)
+ 
+ Miscellaneous:
+-  -h [ --help ]                    display this help and exit
+-  -V [ --version ]                 output version information and exit
++  -h [ --help ]         display this help and exit
++  -V [ --version ]      output version information and exit
+ 
