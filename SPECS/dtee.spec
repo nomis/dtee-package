@@ -1,5 +1,5 @@
 Name:    dtee
-Version: 1.0.1
+Version: 1.1.0
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
@@ -7,7 +7,7 @@ License: GPLv3+
 URL:     https://dtee.readthedocs.io/
 Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 
-BuildRequires: glibc, make, gcc, gcc-c++, boost-devel
+BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
 BuildRequires: meson >= 0.56.2, ninja-build >= 1.10.2, python3-sphinx >= 1:3.4.3
 
@@ -33,6 +33,7 @@ CFLAGS="%{build_cflags}" \
 	--prefix "%{_prefix}" \
 	--bindir "%{_bindir}" \
 	--mandir "%{_mandir}" \
+	--datadir "%{_datadir}" \
 	--buildtype=plain \
 	--unity on \
 	build/redhat
@@ -44,8 +45,9 @@ ninja -v -C build/redhat test %{_smp_mflags}
 DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 ln -sf dtee "%{buildroot}%{_bindir}/cronty"
 ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
+%find_lang %{name}
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %{_bindir}/dtee
 %{_bindir}/cronty
@@ -53,5 +55,5 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 %{_mandir}/man1/cronty.*
 
 %changelog
-* Sun May 09 2021 Simon Arlott <redhat@sa.me.uk> - 1.0.1-1
+* Sun May 30 2021 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
 - Initial release
