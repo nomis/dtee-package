@@ -24,8 +24,9 @@ from prepare_common import cp_file, chmod
 def for_tag(org, pkg, tag, arches):
 	print(f"RedHat: {tag}")
 
-	rpm_dir = "rpm/" + tag.split("/")[0] # rpm/rhel-7
-	(rpm_distro, rpm_release) = tag.split("/")[0].split("-") # rhel, 7
+	rpm_dir = "rpm/" + tag.split("/")[0].split("_")[0] # rpm/rhel-7
+	(rpm_distro, rpm_fullrelease) = tag.split("/")[0].split("-") # rhel, 7_9
+	rpm_release = rpm_fullrelease.split("_")[0] # 7
 	rpm_version = tag.split("/")[1] # 1.0.0-1
 	pkg_version = rpm_version.split("-")[0] # 1.0.0
 	pkg_version += f"-{rpm_release}-" # -7-
@@ -33,8 +34,8 @@ def for_tag(org, pkg, tag, arches):
 	pkg_version_group = ".".join(pkg_version.split(".")[:-1]) # 1.0
 
 	rpm_map = {
-		"rhel": ("redhat", f"el{rpm_release}"),
-		"fedora": ("fedora", f"fc{rpm_release}"),
+		"rhel": ("redhat", f"el{rpm_fullrelease}"),
+		"fedora": ("fedora", f"fc{rpm_fullrelease}"),
 	}
 	(repo, rpm_id) = rpm_map[rpm_distro]
 
