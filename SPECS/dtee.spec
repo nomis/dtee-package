@@ -1,5 +1,5 @@
 Name:    dtee
-Version: 1.0.1
+Version: 1.1.0
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
@@ -7,13 +7,16 @@ License: GPLv3+
 URL:     https://dtee.readthedocs.io/
 Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 Source1: https://github.com/boostorg/asio/commit/749e9d221960c6703220eaf4c99b6ee913db7607.patch
+Patch1:  https://raw.githubusercontent.com/nomis/dtee-package/rhel-7/SOURCES/dtee-1.1.0-1_rhel-7_boost-1.53.0_compat.patch
 
 # rhel-7-server-rpms
-BuildRequires: glibc, make, gcc, gcc-c++, boost-devel
+BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
 BuildRequires: scl-utils
 
 # rhel-server-rhscl-7-rpms
+BuildRequires: %scl_require_package devtoolset-7 gcc
+BuildRequires: %scl_require_package devtoolset-7 gcc-c++
 BuildRequires: rh-python36
 BuildRequires: %scl_require_package rh-python36 python-virtualenv
 
@@ -29,7 +32,7 @@ code will be appended to standard error.
 %global _hardened_build 1
 
 %prep
-%setup -q
+%autosetup -p1
 
 set +e
 source scl_source enable rh-python36
@@ -44,7 +47,7 @@ virtualenv build/virtualenv/dtee
 build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
 	--upgrade pip==8.1.1 --no-deps --ignore-installed
 build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
-	meson==0.48.2 \
+	meson==0.53.2 \
 	ninja==1.8.2 \
 	Jinja2==2.10 \
 	snowballstemmer==1.2.1 \
@@ -61,7 +64,7 @@ build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
 
 %build
 set +e
-source scl_source enable rh-python36
+source scl_source enable devtoolset-7 rh-python36
 RET=$?
 set -e
 if [ $RET -ne 0 ]; then
@@ -78,6 +81,7 @@ PATH="$VENV_DTEE_BIN:$PATH" \
 	--prefix "%{_prefix}" \
 	--bindir "%{_bindir}" \
 	--mandir "%{_mandir}" \
+	--datadir "%{_datadir}" \
 	--buildtype=plain \
 	--unity on \
 	build/redhat
@@ -96,8 +100,9 @@ VENV_DTEE_BIN="$PWD/build/virtualenv/dtee/bin"
 PATH="$VENV_DTEE_BIN:$PATH" DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 ln -sf dtee "%{buildroot}%{_bindir}/cronty"
 ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
+%find_lang %{name}
 
-%files
+%files -f %{name}.lang
 %license COPYING
 %{_bindir}/dtee
 %{_bindir}/cronty
@@ -105,6 +110,8 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 %{_mandir}/man1/cronty.*
 
 %changelog
+* Sun May 30 2021 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
+- New version
 * Sat Dec 22 2018 Simon Arlott <redhat@sa.me.uk> - 1.0.1-1
 - New version
 * Sun Dec 09 2018 Simon Arlott <redhat@sa.me.uk> - 1.0.0-1
