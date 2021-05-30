@@ -17,7 +17,7 @@ BuildRequires: %scl_require_package devtoolset-7 gcc
 BuildRequires: %scl_require_package devtoolset-7 gcc-c++
 BuildRequires: rh-python36
 BuildRequires: %scl_require_package rh-python36 python-virtualenv
-BuildRequires: %scl_require_package rh-mongodb34 boost-devel >= 1.55
+BuildRequires: %scl_require_package rh-mongodb34 boost-devel >= 1.56
 
 Requires: %scl_require_package rh-mongodb34 boost-system
 Requires: %scl_require_package rh-mongodb34 boost-filesystem
