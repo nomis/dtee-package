@@ -15,7 +15,3 @@ override_dh_auto_install:
 	DESTDIR="$(CURDIR)/debian/dtee" ninja -v -C build/debian install
 	ln -sf dtee "$(CURDIR)/debian/dtee/usr/bin/cronty"
 	ln -sf dtee.1 "$(CURDIR)/debian/dtee/usr/share/man/man1/cronty.1"
-
-override_dh_builddeb:
-	# Workaround a lack of support for xz compression of the control part of the package in Bintray
-	dh_builddeb -- --no-uniform-compression
