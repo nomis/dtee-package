@@ -1,5 +1,5 @@
 Name:    dtee
-Version: 1.0.1
+Version: 1.1.0
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
@@ -9,7 +9,7 @@ Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 Source1: https://github.com/boostorg/asio/commit/749e9d221960c6703220eaf4c99b6ee913db7607.patch
 
 # rhel-6-server-rpms
-BuildRequires: glibc, make, gcc, gcc-c++
+BuildRequires: glibc, make, gcc, gcc-c++, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
 BuildRequires: scl-utils, scl-utils-build
 
@@ -37,7 +37,8 @@ code will be appended to standard error.
 
 %prep
 %setup -q
-sed -e "s@link_args: link_args,@link_args: link_args, build_rpath: '/opt/rh/rh-mongodb34/root%{_libdir}', install_rpath: '/opt/rh/rh-mongodb34/root%{_libdir}',@" -i meson.build
+sed -e "s@build_rpath: rpath,@build_rpath: '/opt/rh/rh-mongodb34/root%{_libdir}',@" -i meson.build
+sed -e "s@install_rpath: rpath,@install_rpath: '/opt/rh/rh-mongodb34/root%{_libdir}',@" -i meson.build
 
 set +e
 source scl_source enable rh-python36
@@ -52,7 +53,7 @@ virtualenv build/virtualenv/dtee
 build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
 	--upgrade pip==8.1.1 --no-deps --ignore-installed
 build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
-	meson==0.48.2 \
+	meson==0.53.2 \
 	ninja==1.8.2 \
 	Jinja2==2.10 \
 	snowballstemmer==1.2.1 \
@@ -90,6 +91,7 @@ PATH="$VENV_DTEE_BIN:$PATH" \
 	--prefix "%{_prefix}" \
 	--bindir "%{_bindir}" \
 	--mandir "%{_mandir}" \
+	--datadir "%{_datadir}" \
 	--buildtype=plain \
 	--unity on \
 	build/redhat
@@ -111,8 +113,9 @@ VENV_DTEE_BIN="$PWD/build/virtualenv/dtee/bin"
 PATH="$VENV_DTEE_BIN:$PATH" DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 ln -sf dtee "%{buildroot}%{_bindir}/cronty"
 ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
+%find_lang %{name}
 
-%files
+%files -f %{name}.lang
 %doc COPYING
 %{_bindir}/dtee
 %{_bindir}/cronty
@@ -120,6 +123,8 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 %{_mandir}/man1/cronty.*
 
 %changelog
+* Sun May 30 2021 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
+- New version
 * Sat Dec 22 2018 Simon Arlott <redhat@sa.me.uk> - 1.0.1-1
 - New version
 * Sun Dec 09 2018 Simon Arlott <redhat@sa.me.uk> - 1.0.0-1
