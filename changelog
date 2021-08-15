@@ -1,11 +1,5 @@
-dtee (1.1.0-1) buster; urgency=medium
-
-  * New version
-
- -- Simon Arlott <debian@sa.me.uk>  Sun, 30 May 2021 14:14:47 +0100
-
-dtee (1.0.1-1) buster; urgency=medium
+dtee (1.1.0-1) bullseye; urgency=medium
 
   * Initial release
 
- -- Simon Arlott <debian@sa.me.uk>  Sun, 07 Jul 2019 11:28:55 +0100
+ -- Simon Arlott <debian@sa.me.uk>  Sun, 15 Aug 2021 12:04:02 +0100
