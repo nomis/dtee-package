@@ -1,4 +1,4 @@
-IndexIgnore *.deb
+IndexIgnore *.deb *.dsc
 IndexIgnore *.rpm
 
 IndexIgnore InRelease* Release* Packages* Sources*
