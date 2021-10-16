@@ -19,6 +19,7 @@ www:
 	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/.htaccess uuid-bin/dtee/* djelibeybi:dtee-bin-uuid-uk/
 	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/.htaccess uuid-bin/dtee/* genua:dtee-bin-uuid-uk/
 	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/.htaccess uuid-bin/dtee/* papylos:dtee-bin-uuid-uk/
+	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/.htaccess uuid-bin/dtee/* quirm:dtee-bin-uuid-uk/
 	rsync -rlptDHi --delete --delete-after --exclude=.snapshots/ uuid-bin/dtee/.htaccess uuid-bin/dtee/* skund:dtee-bin-uuid-uk/
 
 supported:
