@@ -4,7 +4,6 @@
 	dh $@
 
 override_dh_auto_build:
-	dh_auto_build
 	meson --prefix /usr --buildtype=plain build/debian
 	ninja -v -C build/debian -j 1
 
