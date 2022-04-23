@@ -11,7 +11,6 @@ DH_DTEE_BIN=$(CURDIR)/build$(DH_VIRTUALENV_INSTALL_ROOT)/$(DH_VIRTUALENV_INSTALL
 	dh $@ --buildsystem=dh_virtualenv
 
 override_dh_auto_build:
-	dh_auto_build
 	PATH="$(DH_DTEE_BIN):$(PATH)" meson --prefix /usr --buildtype=plain build/debian
 	PATH="$(DH_DTEE_BIN):$(PATH)" ninja -v -C build/debian -j 1
 
