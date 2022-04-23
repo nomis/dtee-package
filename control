@@ -2,12 +2,12 @@ Source: dtee
 Section: utils
 Priority: optional
 Maintainer: Simon Arlott <ubuntu@sa.me.uk>
-Build-Depends: debhelper (>=12), meson (>=0.53.2), ninja-build (>=1.10.0),
- libboost-dev (>=1.71), libboost-filesystem-dev (>=1.71),
- libboost-program-options-dev (>=1.71), python3-sphinx (>=1.8.5),
- dash (>=0.5.8), bash (>=4.4), coreutils (>=8.28), diffutils (>=1:3.6),
- findutils (>=4.6.0), gettext (>=0.19.8.1)
-Standards-Version: 4.5.0
+Build-Depends: debhelper (>=13), meson (>=0.61.2), ninja-build (>=1.10.1),
+ libboost-dev (>=1.74), libboost-filesystem-dev (>=1.74),
+ libboost-program-options-dev (>=1.74), python3-sphinx (>=4.3.2),
+ dash (>=0.5.11), bash (>=5.1), coreutils (>=8.32), diffutils (>=1:3.8),
+ findutils (>=4.8.0), gettext (>=0.21)
+Standards-Version: 4.6.0
 Homepage: https://dtee.readthedocs.io/
 
 Package: dtee
