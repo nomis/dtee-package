@@ -9,7 +9,7 @@ Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
-BuildRequires: meson >= 0.62.1, ninja-build >= 1.10.2, python3-sphinx >= 1:4.4.0
+BuildRequires: meson >= 0.58.2, ninja-build >= 1.10.2, python3-sphinx >= 1:3.4.3
 
 %description
 Run a program with standard output and standard error copied to files while
@@ -55,5 +55,5 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 %{_mandir}/man1/cronty.*
 
 %changelog
-* Thu May 19 2022 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
+* Sat Aug 13 2022 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
 - Initial release
