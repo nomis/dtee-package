@@ -7,8 +7,12 @@ License: GPLv3+
 URL:     https://dtee.readthedocs.io/
 Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 
+# rhel-9-for-x86_64-baseos-rpms
+# rhel-9-for-x86_64-appstream-rpms
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
+
+# codeready-builder-for-rhel-9-x86_64-rpms
 BuildRequires: meson >= 0.58.2, ninja-build >= 1.10.2, python3-sphinx >= 1:3.4.3
 
 %description
