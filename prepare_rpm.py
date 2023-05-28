@@ -1,4 +1,4 @@
-# Copyright 2018,2020-2021  Simon Arlott
+# Copyright 2018,2020-2021,2023  Simon Arlott
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -64,25 +64,37 @@ def for_repos(org, repo):
 	root = f"uuid-bin/{org}/{repo}"
 	for dir in sorted(glob.glob(f"{root}/*/*")):
 		repomd = f"{dir}/repodata/repomd.xml"
-
-		prev = None
-		try:
-			with open(repomd, "rb") as f:
-				prev = f.read()
-		except FileNotFoundError:
-			pass
-
-		subprocess.run(["createrepo", "--no-database", "-s", "sha256", "--compress-type=gz", "-C", dir], check=True)
-
-		with open(repomd, "rb") as f:
-			curr = f.read()
-
 		sig = repomd + ".asc"
-		if prev != curr:
+
+		changed = False
+		if os.path.exists(repomd):
+			timestamp = 0
+			for file in glob.glob(f"{dir}/**/*.rpm"):
+				timestamp = max(timestamp, os.path.getctime(file))
+
+			if timestamp >= os.path.getctime(repomd):
+				changed = True
+		else:
+			changed = True
+
+		if changed:
+			prev = None
 			try:
-				os.unlink(sig)
+				with open(repomd, "rb") as f:
+					prev = f.read()
 			except FileNotFoundError:
 				pass
+
+			subprocess.run(["createrepo_c", "--no-database", "-s", "sha256", "--compress-type=gz", "--update", "--retain-old-md=0", dir], check=True)
+
+			with open(repomd, "rb") as f:
+				curr = f.read()
+
+			if prev != curr:
+				try:
+					os.unlink(sig)
+				except FileNotFoundError:
+					pass
 
 		if not os.path.exists(sig):
 			subprocess.run(["gpg2", "--batch", "-a", "-b", "-u", "dtee.bin.uuid.uk", "-o", sig, "--", repomd], check=True)
