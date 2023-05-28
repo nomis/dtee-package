@@ -17,7 +17,7 @@ Patch8:  https://github.com/nomis/dtee/commit/a7611ff355afa0e07e66609bf2c9198f37
 
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
-BuildRequires: meson >= 1.0.0, ninja-build >= 1.10.2, python3-sphinx >= 1:5.0.2
+BuildRequires: meson >= 1.0.1, ninja-build >= 1.11.1, python3-sphinx >= 1:5.3.0
 
 %description
 Run a program with standard output and standard error copied to files while
@@ -62,5 +62,5 @@ DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 %{_mandir}/man1/cronty.*
 
 %changelog
-* Sat Mar 11 2023 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
+* Sun May 28 2023 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
 - Initial release
