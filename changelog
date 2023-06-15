@@ -1,5 +1,5 @@
-dtee (1.1.0-1) bullseye; urgency=medium
+dtee (1.1.0-1) bookworm; urgency=medium
 
   * Initial release
 
- -- Simon Arlott <debian@sa.me.uk>  Sun, 15 Aug 2021 12:04:02 +0100
+ -- Simon Arlott <debian@sa.me.uk>  Thu, 15 Jun 2023 20:24:51 +0100
