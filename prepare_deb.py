@@ -87,6 +87,7 @@ def for_repos(org, repo):
 		(".gz", ["gzip", "-9", "-k"]),
 		(".bz2", ["bzip2", "-9", "-k"]),
 		(".xz", ["xz", "-9", "-k"]),
+		(".lzma", ["lzma", "-9", "-k"]),
 	]
 	now =  email.utils.formatdate(timeval=None, localtime=False, usegmt=True)
 
