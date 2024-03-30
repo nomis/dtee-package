@@ -3,6 +3,6 @@ IndexIgnore *.rpm
 
 IndexIgnore InRelease* Release* Packages* Sources*
 IndexIgnore *.xml
-IndexIgnore *.gz *.bz2 *.xz *.lzma
+IndexIgnore *.gz *.bz2 *.xz *.lzma *.lz
 
 IndexIgnore *.asc
