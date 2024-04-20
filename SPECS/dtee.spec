@@ -1,11 +1,12 @@
 Name:    dtee
-Version: 1.1.0
+Version: 1.1.1
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
 License: GPLv3+
 URL:     https://dtee.readthedocs.io/
 Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
+Patch1:  https://raw.githubusercontent.com/nomis/dtee-package/rhel-6/SOURCES/dtee-1.1.1-1_rhel-6_meson-0.53.2_compat.patch
 
 # rhel-6-server-rpms
 BuildRequires: glibc, make, gcc, gcc-c++, gettext
@@ -17,10 +18,9 @@ BuildRequires: %scl_require_package devtoolset-7 gcc
 BuildRequires: %scl_require_package devtoolset-7 gcc-c++
 BuildRequires: rh-python36
 BuildRequires: %scl_require_package rh-python36 python-virtualenv
-BuildRequires: %scl_require_package rh-mongodb34 boost-devel >= 1.56
+BuildRequires: %scl_require_package rh-mongodb34 boost-devel >= 1.60
 
 Requires: %scl_require_package rh-mongodb34 boost-system
-Requires: %scl_require_package rh-mongodb34 boost-filesystem
 Requires: %scl_require_package rh-mongodb34 boost-program-options
 
 %description
@@ -35,7 +35,8 @@ code will be appended to standard error.
 %global _hardened_build 1
 
 %prep
-%setup -q
+%autosetup -p1
+
 sed -e "s@build_rpath: rpath,@build_rpath: '/opt/rh/rh-mongodb34/root%{_libdir}',@" -i meson.build
 sed -e "s@install_rpath: rpath,@install_rpath: '/opt/rh/rh-mongodb34/root%{_libdir}',@" -i meson.build
 
@@ -69,7 +70,7 @@ build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
 
 %build
 set +e
-source scl_source enable devtoolset-7 rh-python36
+source scl_source enable devtoolset-7 rh-python36 rh-mongodb34
 RET=$?
 set -e
 if [ $RET -ne 0 ]; then
@@ -122,6 +123,8 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 %{_mandir}/man1/cronty.*
 
 %changelog
+* Sat Apr 20 2024 Simon Arlott <redhat@sa.me.uk> - 1.1.1-1
+- New version
 * Sun May 30 2021 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
 - New version
 * Sat Dec 22 2018 Simon Arlott <redhat@sa.me.uk> - 1.0.1-1
