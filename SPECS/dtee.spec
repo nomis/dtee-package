@@ -1,23 +1,15 @@
 Name:    dtee
-Version: 1.1.0
+Version: 1.1.1
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
 License: GPLv3+
 URL:     https://dtee.readthedocs.io/
 Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
-Patch1:  https://github.com/nomis/dtee/commit/648f908f7a43b987fb5d5e291b0f101ee61a393f.patch
-Patch2:  https://github.com/nomis/dtee/commit/d3a7a5647ce33696f0be7b7ad78828980a340fd2.patch
-Patch3:  https://github.com/nomis/dtee/commit/5f73c669ed8551a11c8cc316acf91e49b221d97c.patch
-Patch4:  https://github.com/nomis/dtee/commit/04bf093a47991e8885384c1c140b7ac9212964a7.patch
-Patch5:  https://github.com/nomis/dtee/commit/2c31a3b0ab6b1499f5edb103a58fd35ee76b5b46.patch
-Patch6:  https://github.com/nomis/dtee/commit/07943309225ff005aaf83cae361ee71aff0610e5.patch
-Patch7:  https://github.com/nomis/dtee/commit/58631255276693626cd06002577f4654c11fe496.patch
-Patch8:  https://github.com/nomis/dtee/commit/a7611ff355afa0e07e66609bf2c9198f37bb0799.patch
 
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
-BuildRequires: meson >= 1.0.1, ninja-build >= 1.11.1, python3-sphinx >= 1:5.3.0
+BuildRequires: meson >= 1.2.3, ninja-build >= 1.11.1, python3-sphinx >= 1:5.3.0
 
 %description
 Run a program with standard output and standard error copied to files while
@@ -62,5 +54,7 @@ DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 %{_mandir}/man1/cronty.*
 
 %changelog
+* Sat Apr 20 2024 Simon Arlott <redhat@sa.me.uk> - 1.1.1-1
+- New version
 * Sun May 28 2023 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
 - Initial release
