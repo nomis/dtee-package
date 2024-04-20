@@ -1,11 +1,12 @@
 Name:    dtee
-Version: 1.1.0
-Release: 2%{?dist}
+Version: 1.1.1
+Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
 License: GPLv3+
 URL:     https://dtee.readthedocs.io/
 Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
+Patch1:  https://raw.githubusercontent.com/nomis/dtee-package/rhel-8/SOURCES/dtee-1.1.1-1_rhel-8_meson-0.58.2_compat.patch
 
 # rhel-8-for-x86_64-baseos-rpms
 # rhel-8-for-x86_64-appstream-rpms
@@ -27,7 +28,7 @@ code will be appended to standard error.
 %global _hardened_build 1
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 CFLAGS="%{build_cflags}" \
@@ -59,6 +60,8 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 %{_mandir}/man1/cronty.*
 
 %changelog
+* Sat Apr 20 2024 Simon Arlott <redhat@sa.me.uk> - 1.1.1-1
+- New version
 * Sun May 30 2021 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
 - New version
 * Sun Jun 09 2019 Simon Arlott <redhat@sa.me.uk> - 1.0.1-1
