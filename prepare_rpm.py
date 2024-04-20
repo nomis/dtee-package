@@ -1,4 +1,4 @@
-# Copyright 2018,2020-2021,2023  Simon Arlott
+# Copyright 2018,2020-2021,2023-2024  Simon Arlott
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ def for_repos(org, repo):
 		changed = False
 		if os.path.exists(repomd):
 			timestamp = 0
-			for file in glob.glob(f"{dir}/**/*.rpm"):
+			for file in glob.glob(f"{dir}/*/*/*.rpm"):
 				timestamp = max(timestamp, os.path.getctime(file))
 
 			if timestamp >= os.path.getctime(repomd):
