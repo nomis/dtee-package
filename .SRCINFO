@@ -1,6 +1,6 @@
 pkgbase = dtee
 	pkgdesc = Run a program with standard output and standard error copied to files
-	pkgver = 1.1.0
+	pkgver = 1.1.1
 	pkgrel = 1
 	url = https://dtee.readthedocs.io/
 	arch = x86_64
@@ -15,13 +15,12 @@ pkgbase = dtee
 	makedepends = python-sphinx
 	depends = boost-libs
 	depends = libboost_program_options.so
-	depends = libboost_filesystem.so
 	options = zipman
 	options = lto
-	source = https://dtee.bin.uuid.uk/source/dtee-1.1.0.tar.gz
-	source = https://dtee.bin.uuid.uk/source/dtee-1.1.0.tar.gz.asc
+	source = https://dtee.bin.uuid.uk/source/dtee-1.1.1.tar.gz
+	source = https://dtee.bin.uuid.uk/source/dtee-1.1.1.tar.gz.asc
 	validpgpkeys = 47849A12DAF9BD2AF5505FBB4FF886F318206BD9
-	sha256sums = 7ed65431e51493fbdb16e6d1d89cd852d4d265e69b1414c42ed23e6852e6b51f
+	sha256sums = f1de814533861b591c41945c2c728c029e5db2b25bfcb5366601f9cad52eb5f6
 	sha256sums = SKIP
 
 pkgname = dtee
