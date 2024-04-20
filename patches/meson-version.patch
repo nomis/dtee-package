@@ -1,0 +1,13 @@
+Index: dtee-1.1.1/meson.build
+===================================================================
+--- dtee-1.1.1.orig/meson.build
++++ dtee-1.1.1/meson.build
+@@ -8,7 +8,7 @@ project('dtee',
+ 	],
+ 	version: '1.1.1',
+ 	license: 'GPL3+',
+-	meson_version: '>=0.63.0',
++	meson_version: '>=0.61.2',
+ )
+ 
+ c = meson.get_compiler('c')
