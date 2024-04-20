@@ -1,0 +1,13 @@
+Index: dtee-1.1.1/tests/meson.build
+===================================================================
+--- dtee-1.1.1.orig/tests/meson.build
++++ dtee-1.1.1/tests/meson.build
+@@ -4,7 +4,7 @@ test_env = [
+ 	'LANGUAGE=',
+ ]
+ 
+-bash = find_program('bash').full_path()
++bash = '/bin/bash'
+ xfail = get_option('test_expect_fail')
+ 
+ subdir('util')
