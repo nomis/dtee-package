@@ -1,5 +1,5 @@
 Name:    dtee
-Version: 1.1.0
+Version: 1.1.1
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
@@ -7,7 +7,8 @@ License: GPLv3+
 URL:     https://dtee.readthedocs.io/
 Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 Source1: https://github.com/boostorg/asio/commit/749e9d221960c6703220eaf4c99b6ee913db7607.patch
-Patch1:  https://raw.githubusercontent.com/nomis/dtee-package/rhel-7/SOURCES/dtee-1.1.0-1_rhel-7_boost-1.53.0_compat.patch
+Patch1:  https://raw.githubusercontent.com/nomis/dtee-package/rhel-7/SOURCES/dtee-1.1.1-1_rhel-7_boost-1.53.0_compat.patch
+Patch2:  https://raw.githubusercontent.com/nomis/dtee-package/rhel-7/SOURCES/dtee-1.1.1-1_rhel-7_meson-0.61.0_compat.patch
 
 # rhel-7-server-rpms
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
@@ -47,7 +48,7 @@ virtualenv build/virtualenv/dtee
 build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
 	--upgrade pip==8.1.1 --no-deps --ignore-installed
 build/virtualenv/dtee/bin/python3 build/virtualenv/dtee/bin/pip install \
-	meson==0.53.2 \
+	meson==0.61.0 \
 	ninja==1.8.2 \
 	Jinja2==2.10 \
 	snowballstemmer==1.2.1 \
@@ -110,6 +111,8 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 %{_mandir}/man1/cronty.*
 
 %changelog
+* Sat Apr 20 2024 Simon Arlott <redhat@sa.me.uk> - 1.1.1-1
+- New version
 * Sun May 30 2021 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
 - New version
 * Sat Dec 22 2018 Simon Arlott <redhat@sa.me.uk> - 1.0.1-1
