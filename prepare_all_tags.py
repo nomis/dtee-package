@@ -51,9 +51,12 @@ if __name__ == "__main__":
 
 	cp_file(org, "", "robots.txt", "robots.txt", False)
 	cp_file(org, "", "htaccess", ".htaccess", False)
+	cp_file(org, "", "www-README.html", "README.html", False)
 
 	for tag in source_tags(pkg):
 		prepare_source.for_tag(org, pkg, tag)
+
+	cp_file(org, "source", "htaccess-source", ".htaccess", False)
 
 	for tag in package_tags(["debian-", "ubuntu-"]):
 		prepare_deb.for_tag(org, pkg, tag, ["amd64"])

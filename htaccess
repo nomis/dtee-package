@@ -6,3 +6,4 @@ IndexIgnore *.xml
 IndexIgnore *.gz *.bz2 *.xz *.lzma *.lz
 
 IndexIgnore *.asc
+IndexIgnore README.html
