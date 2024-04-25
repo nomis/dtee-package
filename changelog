@@ -1,11 +1,5 @@
-dtee (1.1.1-1) jammy; urgency=medium
-
-  * New version
-
- -- Simon Arlott <ubuntu@sa.me.uk>  Sat, 20 Apr 2024 11:00:29 +0000
-
-dtee (1.1.0-1) jammy; urgency=medium
+dtee (1.1.1-1) noble; urgency=medium
 
   * Initial release
 
- -- Simon Arlott <ubuntu@sa.me.uk>  Sat, 23 Apr 2022 09:56:24 +0000
+ -- Simon Arlott <ubuntu@sa.me.uk>  Thu, 25 Apr 2024 21:33:14 +0000
