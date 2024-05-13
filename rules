@@ -4,7 +4,7 @@
 	dh $@
 
 override_dh_auto_build:
-	meson --prefix /usr --buildtype=plain build/debian --unity on
+	meson setup --prefix /usr --buildtype=plain build/debian --unity on
 	ninja -v -C build/debian
 
 override_dh_auto_test:
