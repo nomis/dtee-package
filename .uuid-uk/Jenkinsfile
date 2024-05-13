@@ -1,0 +1,120 @@
+/*
+Copyright 2024  Simon Arlott
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+@Library("uuid")
+import uk.uuid.jenkins.pipeline.Cron
+import uk.uuid.jenkins.pipeline.Email
+
+pipeline {
+	agent none
+	triggers {
+		cron("${Cron.schedule(this)}")
+	}
+	options {
+		disableConcurrentBuilds()
+	}
+	environment {
+		PIPENV_VENV_IN_PROJECT = "1"
+		PIPENV_SKIP_LOCK = "1"
+	}
+	stages {
+		stage("Package") {
+			matrix {
+				axes {
+					axis {
+						name "DISTRIBUTION"
+						values "debian-10-buster", "debian-11-bullseye", "debian-12-bookworm", "ubuntu-2004-focal", "ubuntu-2204-jammy", "ubuntu-2404-noble", "fedora-38", "fedora-39", "fedora-40", "arch"
+					}
+				}
+				agent {
+					dockerfile {
+						label "Linux && Docker"
+						dir ".uuid-uk"
+						filename "${DISTRIBUTION}.Dockerfile"
+					}
+				}
+				environment {
+					TMPDIR="${WORKSPACE_TMP}"
+					RPM_BUILD_NCPUS=2
+				}
+				stages {
+					stage("Checkout") {
+						steps {
+							sh "git clean -fdx"
+							sh "git fetch --no-tags --depth 1 origin '+refs/tags/${DISTRIBUTION}/*:refs/tags/${DISTRIBUTION}/*'"
+							sh "git config --local tag.sort -creatordate"
+						}
+					}
+					stage("Package") {
+						steps {
+							script {
+								def TAG = sh (
+									script: "git tag | grep -E '^${DISTRIBUTION}' | head -n 1",
+									returnStdout: true
+								).trim()
+								def TYPE = TAG.split("/")[0].split("-")[0]
+
+								if (TYPE == "debian" || TYPE == "ubuntu") {
+									def VERSION = TAG.split("/")[1].split("-")[0]
+
+									sh "wget 'https://dtee.bin.uuid.uk/source/dtee-${VERSION}.tar.gz'"
+									sh "tar -xzf 'dtee-${VERSION}.tar.gz'"
+									sh "mv 'dtee-${VERSION}.tar.gz' 'dtee_${VERSION}.orig.tar.gz'"
+
+									sh "git worktree add 'dtee-${VERSION}/debian' '${TAG}'"
+									sh "rm -rf .git 'dtee-${VERSION}/debian/.git'"
+
+									sh "sed -e 's/ninja -v /ninja -j 2 -v /' -i 'dtee-${VERSION}/debian/rules'"
+
+									sh "cd 'dtee-${VERSION}' && dpkg-buildpackage -us -uc -ui -S"
+									sh "cd 'dtee-${VERSION}' && dpkg-buildpackage -us -uc -ui -b"
+								} else if (TYPE == "fedora") {
+									sh "git worktree add rpm '${TAG}'"
+									sh "rm -rf .git rpm/.git"
+
+									sh "make -C rpm"
+								} else if (TYPE == "arch") {
+									sh "git worktree add arch '${TAG}'"
+									sh "rm -rf .git arch/.git"
+
+									sh "sed -e 's/ninja -C /ninja -j 2 -C /' -i arch/PKGBUILD"
+
+									sh "gpg2 --import arch/47849A12DAF9BD2AF5505FBB4FF886F318206BD9.asc"
+									sh "cd arch && makepkg"
+								} else {
+									error("Unknown build type: ${TYPE} (${TAG})")
+								}
+							}
+						}
+					}
+				}
+				post {
+					cleanup {
+						cleanWs()
+					}
+				}
+			}
+		}
+	}
+	post {
+		always {
+			script {
+				Email.send(this)
+			}
+		}
+	}
+}
