@@ -37,7 +37,7 @@ pipeline {
 				axes {
 					axis {
 						name "DISTRIBUTION"
-						values "debian-10-buster", "debian-11-bullseye", "debian-12-bookworm", "ubuntu-2004-focal", "ubuntu-2204-jammy", "ubuntu-2404-noble", "fedora-38", "fedora-39", "fedora-40", "arch"
+						values "debian-10-buster", "debian-11-bullseye", "debian-12-bookworm", "ubuntu-2004-focal", "ubuntu-2204-jammy", "ubuntu-2404-noble", "fedora-40", "fedora-41", "arch"
 					}
 				}
 				agent {
