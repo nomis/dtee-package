@@ -1,5 +1,5 @@
 Name:    dtee
-Version: 1.1.1
+Version: 1.1.2
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
@@ -9,7 +9,7 @@ Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
-BuildRequires: meson >= 1.5.1, ninja-build >= 1.12.1, python3-sphinx >= 1:7.3.7
+BuildRequires: meson >= 1.7.0, ninja-build >= 1.12.1, python3-sphinx >= 1:8.1.3
 
 %description
 Run a program with standard output and standard error copied to files while
@@ -54,5 +54,5 @@ DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 %{_mandir}/man1/cronty.*
 
 %changelog
-* Wed Jan 08 2025 Simon Arlott <redhat@sa.me.uk> - 1.1.1-1
+* Sun Apr 27 2025 Simon Arlott <redhat@sa.me.uk> - 1.1.2-1
 - Initial release
