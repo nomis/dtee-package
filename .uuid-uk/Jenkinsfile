@@ -1,5 +1,5 @@
 /*
-Copyright 2024  Simon Arlott
+Copyright 2024-2025  Simon Arlott
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ pipeline {
 				axes {
 					axis {
 						name "DISTRIBUTION"
-						values "debian-10-buster", "debian-11-bullseye", "debian-12-bookworm", "ubuntu-2004-focal", "ubuntu-2204-jammy", "ubuntu-2404-noble", "fedora-40", "fedora-41", "arch"
+						values "debian-10-buster", "debian-11-bullseye", "debian-12-bookworm", "ubuntu-2004-focal", "ubuntu-2204-jammy", "ubuntu-2404-noble", "fedora-40", "fedora-41", "fedora-42", "arch"
 					}
 				}
 				agent {

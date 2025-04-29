@@ -1,22 +1,22 @@
-FROM fedora:41
+FROM fedora:42
 
 RUN echo 'keepcache=True' >>/etc/dnf/dnf.conf
 
 # A non-C locale is required for testing gettext()
 RUN \
-	--mount=type=cache,sharing=locked,target=/var/cache/dnf,id=fedora-41-var-cache-dnf \
+	--mount=type=cache,sharing=locked,target=/var/cache/dnf,id=fedora-42-var-cache-dnf \
 	dnf install -y glibc-langpack-en langpacks-en
 
 RUN \
-	--mount=type=cache,sharing=locked,target=/var/cache/dnf,id=fedora-41-var-cache-dnf \
+	--mount=type=cache,sharing=locked,target=/var/cache/dnf,id=fedora-42-var-cache-dnf \
 	dnf install -y rpm-build rpm-devel rpmlint rpmdevtools
 
 RUN \
-	--mount=type=cache,sharing=locked,target=/var/cache/dnf,id=fedora-41-var-cache-dnf \
+	--mount=type=cache,sharing=locked,target=/var/cache/dnf,id=fedora-42-var-cache-dnf \
 	dnf install -y gcc gcc-c++ make meson ninja-build git procps
 
 RUN \
-	--mount=type=cache,sharing=locked,target=/var/cache/dnf,id=fedora-41-var-cache-dnf \
+	--mount=type=cache,sharing=locked,target=/var/cache/dnf,id=fedora-42-var-cache-dnf \
 	dnf install -y bash coreutils diffutils patch python3-sphinx boost-devel gettext lcov
 
 # Jenkins always runs commands in the container as its own UID/GID, which has no
