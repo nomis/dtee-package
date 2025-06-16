@@ -37,7 +37,7 @@ pipeline {
 				axes {
 					axis {
 						name "DISTRIBUTION"
-						values "debian-10-buster", "debian-11-bullseye", "debian-12-bookworm", "ubuntu-2004-focal", "ubuntu-2204-jammy", "ubuntu-2404-noble", "fedora-40", "fedora-41", "fedora-42", "arch"
+						values "debian-10-buster", "debian-11-bullseye", "debian-12-bookworm", "ubuntu-2004-focal", "ubuntu-2204-jammy", "ubuntu-2404-noble", "fedora-40", "fedora-41", "fedora-42", "arch", "nixos"
 					}
 				}
 				agent {
@@ -95,6 +95,11 @@ pipeline {
 
 									sh "gpg2 --import arch/47849A12DAF9BD2AF5505FBB4FF886F318206BD9.asc"
 									sh "cd arch && makepkg"
+								} else if (TYPE == "nixos") {
+									sh "git worktree add nixos '${TAG}'"
+									sh "rm -rf .git nixos/.git"
+
+									sh "cd nixos && nix-build -A dtee --cores 2"
 								} else {
 									error("Unknown build type: ${TYPE} (${TAG})")
 								}
