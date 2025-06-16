@@ -1,6 +1,7 @@
 {
   fetchFromGitHub,
   lib,
+  nix-update-script,
   pkgs,
   stdenv,
 
@@ -33,6 +34,8 @@ stdenv.mkDerivation rec {
     tag = version;
     hash = "sha256-trREhITO3cY4j75mpudWhOA3GXI0Q8GkUxNq2s6154w=";
   };
+
+  passthru.updateScript = nix-update-script { };
 
   # Make "#!/usr/bin/env bash" work in tests
   postPatch = "patchShebangs tests";
