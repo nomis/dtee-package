@@ -4,7 +4,6 @@
   nix-update-script,
   pkgs,
   stdenv,
-
   # nativeBuildInputs
   gettext,
   meson,
@@ -12,10 +11,8 @@
   pkg-config,
   python3,
   sphinx,
-
   # buildInputs
   boost,
-
   # nativeCheckInputs
   bash,
   coreutils,
@@ -49,9 +46,7 @@ stdenv.mkDerivation rec {
     sphinx # For the man page
   ];
 
-  buildInputs = [
-    boost
-  ];
+  buildInputs = [ boost ];
 
   nativeCheckInputs = [
     bash
@@ -67,7 +62,7 @@ stdenv.mkDerivation rec {
     export SOURCE_DATE_EPOCH
   '';
 
-  mesonFlags = ["--unity on"];
+  mesonFlags = [ "--unity on" ];
   doCheck = true;
 
   meta = with lib; {
