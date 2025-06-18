@@ -1,20 +1,19 @@
 Name:    dtee
-Version: 1.1.1
+Version: 1.1.3
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
 License: GPLv3+
 URL:     https://dtee.readthedocs.io/
 Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
-Patch1:  https://raw.githubusercontent.com/nomis/dtee-package/rhel-9/SOURCES/dtee-1.1.1-1_rhel-9_meson-0.58.2_compat.patch
 
-# rhel-9-for-x86_64-baseos-rpms
-# rhel-9-for-x86_64-appstream-rpms
+# rhel-10-for-x86_64-appstream-rpms
+# rhel-10-for-x86_64-baseos-rpms
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
 
-# codeready-builder-for-rhel-9-x86_64-rpms
-BuildRequires: meson >= 0.58.2, ninja-build >= 1.10.2, python3-sphinx >= 1:3.4.3
+# codeready-builder-for-rhel-10-x86_64-rpms
+BuildRequires: meson >= 1.4.1, ninja-build >= 1.11.1, python3-sphinx >= 1:7.2.6
 
 %description
 Run a program with standard output and standard error copied to files while
@@ -28,13 +27,13 @@ code will be appended to standard error.
 %global _hardened_build 1
 
 %prep
-%autosetup -p1
+%setup -q
 
 %build
 CFLAGS="%{build_cflags}" \
 	CXXFLAGS="%{build_cxxflags}" \
 	LDFLAGS="%{build_ldflags}" \
-	meson \
+	meson setup \
 	--prefix "%{_prefix}" \
 	--bindir "%{_bindir}" \
 	--mandir "%{_mandir}" \
@@ -60,7 +59,5 @@ ln -sf dtee.1 "%{buildroot}%{_mandir}/man1/cronty.1"
 %{_mandir}/man1/cronty.*
 
 %changelog
-* Sat Apr 20 2024 Simon Arlott <redhat@sa.me.uk> - 1.1.1-1
-- New version
-* Sat Aug 13 2022 Simon Arlott <redhat@sa.me.uk> - 1.1.0-1
+* Wed Jun 18 2025 Simon Arlott <redhat@sa.me.uk> - 1.1.3-1
 - Initial release
