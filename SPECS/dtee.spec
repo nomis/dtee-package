@@ -1,5 +1,5 @@
 Name:    dtee
-Version: 1.1.2
+Version: 1.1.3
 Release: 1%{?dist}
 Summary: Run a program with standard output and standard error copied to files
 
@@ -54,5 +54,7 @@ DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 %{_mandir}/man1/cronty.*
 
 %changelog
+* Wed Jun 18 2025 Simon Arlott <redhat@sa.me.uk> - 1.1.3-1
+- New version
 * Sun Apr 27 2025 Simon Arlott <redhat@sa.me.uk> - 1.1.2-1
 - Initial release
