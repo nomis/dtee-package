@@ -21,14 +21,14 @@
   glibcLocales,
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "dtee";
   version = "1.1.3";
 
   src = fetchFromGitHub {
     owner = "nomis";
     repo = "dtee";
-    tag = version;
+    tag = finalAttrs.version;
     hash = "sha256-trREhITO3cY4j75mpudWhOA3GXI0Q8GkUxNq2s6154w=";
   };
 
@@ -58,14 +58,14 @@ stdenv.mkDerivation rec {
 
   # Use the correct copyright year on the man page (workaround for https://github.com/sphinx-doc/sphinx/issues/13231)
   preBuild = ''
-    SOURCE_DATE_EPOCH=$(python3 $NIX_BUILD_TOP/$sourceRoot/release_date.py -e ${version}) || exit 1
+    SOURCE_DATE_EPOCH=$(python3 $NIX_BUILD_TOP/$sourceRoot/release_date.py -e ${finalAttrs.version}) || exit 1
     export SOURCE_DATE_EPOCH
   '';
 
   mesonFlags = [ "--unity on" ];
   doCheck = true;
 
-  meta = with lib; {
+  meta = {
     description = "Run a program with standard output and standard error copied to files";
     longDescription = ''
       Run a program with standard output and standard error copied to files
@@ -78,16 +78,14 @@ stdenv.mkDerivation rec {
     '';
 
     homepage = "https://dtee.readthedocs.io/";
-    downloadPage = "https://github.com/nomis/dtee/tags";
-    changelog = "https://dtee.readthedocs.io/en/${version}/changelog.html";
+    downloadPage = "https://github.com/nomis/dtee/releases/tag/${finalAttrs.version}";
+    changelog = "https://dtee.readthedocs.io/en/${finalAttrs.version}/changelog.html";
 
-    license = licenses.gpl3Plus;
-    sourceProvenance = [ sourceTypes.fromSource ];
-    maintainers = with maintainers; [ nomis ];
-
+    license = lib.licenses.gpl3Plus;
+    sourceProvenance = [ lib.sourceTypes.fromSource ];
+    maintainers = with lib.maintainers; [ nomis ];
     mainProgram = "dtee";
-
     # Only Linux has reliable local datagram sockets
-    platforms = platforms.linux;
+    platforms = lib.platforms.linux;
   };
-}
+})
