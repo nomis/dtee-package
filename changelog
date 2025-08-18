@@ -1,17 +1,5 @@
-dtee (1.1.3-1) bookworm; urgency=medium
-
-  * New version
-
- -- Simon Arlott <debian@sa.me.uk>  Wed, 18 Jun 2025 20:23:05 +0100
-
-dtee (1.1.1-1) bookworm; urgency=medium
-
-  * New version
-
- -- Simon Arlott <debian@sa.me.uk>  Sat, 20 Apr 2024 10:44:08 +0100
-
-dtee (1.1.0-1) bookworm; urgency=medium
+dtee (1.1.3-1) trixie; urgency=medium
 
   * Initial release
 
- -- Simon Arlott <debian@sa.me.uk>  Thu, 15 Jun 2023 20:24:51 +0100
+ -- Simon Arlott <debian@sa.me.uk>  Mon, 18 Aug 2025 22:24:54 +0100
