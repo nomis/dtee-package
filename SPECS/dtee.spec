@@ -9,7 +9,7 @@ Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
-BuildRequires: meson >= 1.7.0, ninja-build >= 1.12.1, python3-sphinx >= 1:8.1.3
+BuildRequires: meson >= 1.8.5, ninja-build >= 1.13.1, python3-sphinx >= 1:8.2.3
 
 %description
 Run a program with standard output and standard error copied to files while
@@ -54,7 +54,5 @@ DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 %{_mandir}/man1/cronty.*
 
 %changelog
-* Wed Jun 18 2025 Simon Arlott <redhat@sa.me.uk> - 1.1.3-1
-- New version
-* Sun Apr 27 2025 Simon Arlott <redhat@sa.me.uk> - 1.1.2-1
+* Sat Nov 08 2025 Simon Arlott <redhat@sa.me.uk> - 1.1.3-1
 - Initial release
