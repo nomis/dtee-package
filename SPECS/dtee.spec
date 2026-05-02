@@ -9,14 +9,15 @@ Source0: https://dtee.bin.uuid.uk/source/%{name}-%{version}.tar.gz
 
 BuildRequires: glibc, make, gcc, gcc-c++, boost-devel, gettext
 BuildRequires: bash, coreutils, diffutils, findutils, grep
-BuildRequires: meson >= 1.8.5, ninja-build >= 1.13.1, python3-sphinx >= 1:8.2.3
+BuildRequires: meson >= 1.11.1, ninja-build >= 1.13.2, python3-sphinx >= 1:8.2.3
 
 %description
 Run a program with standard output and standard error copied to files while
-maintaining the original standard output and standard error as normal.
+maintaining the original standard output and standard error in the original
+order.
 
-Can also operate in cron mode (implied when invoked as "cronty"). Suppresses
-all output unless the process outputs an error message or has a non-zero exit
+When invoked as "cronty", allows programs to be run from cron, suppressing all
+output unless the process outputs an error message or has a non-zero exit
 status whereupon the original output will be written as normal and the exit
 code will be appended to standard error.
 
@@ -54,5 +55,5 @@ DESTDIR="%{buildroot}" ninja -v -C build/redhat install %{_smp_mflags}
 %{_mandir}/man1/cronty.*
 
 %changelog
-* Sat Nov 08 2025 Simon Arlott <redhat@sa.me.uk> - 1.1.3-1
+* Sat May 02 2026 Simon Arlott <fedora@sa.me.uk> - 1.1.3-1
 - Initial release
